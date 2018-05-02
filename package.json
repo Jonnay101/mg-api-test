@@ -6,14 +6,17 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "author": "John Hughes",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "chai": "^4.1.2",
     "express": "^4.16.3",
-    "mongoose": "^5.0.17"
+    "mocha": "^5.1.1",
+    "mongoose": "^5.0.17",
+    "sinon": "^5.0.3"
   },
   "devDependencies": {
     "nodemon": "^1.17.3"

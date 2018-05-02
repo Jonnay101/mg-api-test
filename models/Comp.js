@@ -50,14 +50,6 @@ const CompPresetSchema = new Schema({
     }
 });
 
-// const CompPresetSchema = new Schema({
-//     presetName: {
-//         type: 'String',
-//         required: [true, 'you must enter a preset name']
-//     },
-//     compParams: CompParamSchema,
-//     _user: { type: Schema.Types.ObjectId, ref: 'User'}
-// });
 
 const CompPreset = mongoose.model('compPreset', CompPresetSchema);
 
