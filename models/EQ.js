@@ -125,4 +125,23 @@ module.exports = EQPreset;
     "hiFreq": 7.2,
     "hiGain": 4
 }
+
+{
+    "presetName": "Warm DI Bass",
+    "loBand": "on",
+    "loPeakShelf": "shelf",
+    "loFreq": 110,
+    "loGain": 4,
+    "loMidBand": "on",
+    "loMidHiQ": false,
+    "loMidFreq": 700,
+    "loMidGain": 2,
+    "hiMidBand": "on",
+    "hiMidFreq": 1.6,
+    "hiMidGain": 3,
+    "hiBand": "on",
+    "hiPeakShelf": "shelf",
+    "hiFreq": 12,
+    "hiGain": -3
+}
 */ 
