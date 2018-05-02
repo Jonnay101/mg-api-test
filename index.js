@@ -1,10 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const compRoutes = require('./routes/compRoutes');
+const fxRoutes = require('./routes/fxRoutes');
 const { mongoURI } = require('./config/keys');
 
-
+// create express app
 const app = express();
 
 // connect to mongodb
@@ -15,7 +15,7 @@ mongoose.Promise = global.Promise;
 app.use(bodyParser.json());
 
 // create the routes for comp presets
-app.use('/api', compRoutes);
+app.use('/api', fxRoutes);
 
 const PORT = process.env.PORT || 5000;
 

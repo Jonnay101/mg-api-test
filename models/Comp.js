@@ -2,7 +2,11 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 // create new compressor schema
-const CompParamSchema = new Schema({
+const CompPresetSchema = new Schema({
+    presetName: {
+        type: 'String',
+        required: [true, 'you must enter a preset name']
+    },
     mode: {
         type: String,
         default: 'creative'
@@ -17,13 +21,15 @@ const CompParamSchema = new Schema({
         type: Number,
         default: 100,
         min: [5, 'attack time parameter must be set slower than 5ms'],
-        max: [5000, 'attack time parameter must be set faster than 5000ms']
+        max: [5000, 'attack time parameter must be set faster than 5000ms'],
+        required: true
     },
     threshold: {
         type: Number,
         default: -18,
         min: [-60, 'threshold parameter must be set higher than -60 dB'],
         max: [22, 'threshold parameter must be set lower than 22 dB'],
+        required: true
     },
     ratio: {
         type: Number,
@@ -44,14 +50,14 @@ const CompParamSchema = new Schema({
     }
 });
 
-const CompPresetSchema = new Schema({
-    presetName: {
-        type: 'String',
-        required: [true, 'you must enter a preset name']
-    },
-    compParams: CompParamSchema,
-    _user: { type: Schema.Types.ObjectId, ref: 'User'}
-});
+// const CompPresetSchema = new Schema({
+//     presetName: {
+//         type: 'String',
+//         required: [true, 'you must enter a preset name']
+//     },
+//     compParams: CompParamSchema,
+//     _user: { type: Schema.Types.ObjectId, ref: 'User'}
+// });
 
 const CompPreset = mongoose.model('compPreset', CompPresetSchema);
 
@@ -70,30 +76,24 @@ module.exports = CompPreset;
 
 {
     "presetName": "Bouncy Kick Drum",
-    "compParams": 
-    {
-     	"mode": "creative",
-        "attack": 27,
-        "release": 45,
-        "threshold": -18,
-        "ratio": 2.2,
-        "presence": 3,
-        "makeUp": 3
-    }
+    "mode": "creative",
+    "attack": 27,
+    "release": 45,
+    "threshold": -18,
+    "ratio": 2.2,
+    "presence": 3,
+    "makeUp": 3
 }
 
 {
     "presetName": "Vocal Peak Reduction",
-    "compParams": 
-    {
-     	"mode": "creative",
-        "attack": 0.5,
-        "release": 26,
-        "threshold": -12,
-        "ratio": 6,
-        "presence": 2,
-        "makeUp": 2
-    }
+    "mode": "creative",
+    "attack": 0.5,
+    "release": 26,
+    "threshold": -12,
+    "ratio": 6,
+    "presence": 2,
+    "makeUp": 2
 }
 
 */

@@ -1,7 +1,11 @@
 const mongoose = require('mongoose');
 const {Schema} = mongoose;
 
-const EQParamSchema = new Schema({
+const EQPresetSchema = new Schema({
+    presetName: {
+        type: String,
+        required: [true, 'you must enter a preset name']
+    },
     loBand: {
         type: String,
         default: 'on'
@@ -80,15 +84,6 @@ const EQParamSchema = new Schema({
     }
 });
 
-const EQPresetSchema = new Schema({
-    presetName: {
-        type: String,
-        required: [true, 'you must enter a preset name']
-    },
-    EQParams: EQParamSchema,
-    _user: { type: Schema.Types.ObjectId, ref: 'User'}
-})
-
 const EQPreset = mongoose.model('eqPreset', EQPresetSchema);
 
 module.exports = EQPreset;
@@ -114,23 +109,20 @@ module.exports = EQPreset;
 
 {
     "presetName": "Male Rock Vocal",
-    "EQParams": 
-    {
-    	"loBand": "on",
-	    "loPeakShelf": "shelf",
-	    "loFreq": 163,
-	    "loGain": 2,
-	    "loMidBand": "on",
-	    "loMidHiQ": true,
-	    "loMidFreq": 290,
-	    "loMidGain": -6,
-	    "hiMidBand": "on",
-	    "hiMidFreq": 2.4,
-	    "hiMidGain": -2,
-	    "hiBand": "on",
-	    "hiPeakShelf": "shelf",
-	    "hiFreq": 7.2,
-	    "hiGain": 4
-    }
+    "loBand": "on",
+    "loPeakShelf": "shelf",
+    "loFreq": 163,
+    "loGain": 2,
+    "loMidBand": "on",
+    "loMidHiQ": true,
+    "loMidFreq": 290,
+    "loMidGain": -6,
+    "hiMidBand": "on",
+    "hiMidFreq": 2.4,
+    "hiMidGain": -2,
+    "hiBand": "on",
+    "hiPeakShelf": "shelf",
+    "hiFreq": 7.2,
+    "hiGain": 4
 }
 */ 
