@@ -7,12 +7,12 @@ const EQPresetSchema = new Schema({
         required: [true, 'you must enter a preset name']
     },
     loBand: {
-        type: String,
-        default: 'on'
+        type: Boolean,
+        default: true
     },
-    loPeakShelf: {
-        type: String,
-        default: 'shelf'
+    loShelf: {
+        type: Boolean,
+        default: true
     },
     loFreq: {
         type: Number,
@@ -27,8 +27,8 @@ const EQPresetSchema = new Schema({
         max: [24,'can\'t boost lo more than 24 dB']
     },
     loMidBand: {
-        type: String,
-        default: 'on'
+        type: Boolean,
+        default: true
     },
     loMidHiQ: {
         type: Boolean,
@@ -47,8 +47,8 @@ const EQPresetSchema = new Schema({
         max: [24,'can\'t boost low mids more than 24 dB']
     },
     hiMidBand: {
-        type: String,
-        default: 'on'
+        type: Boolean,
+        default: true
     },
     hiMidFreq: {
         type: Number,
@@ -63,12 +63,12 @@ const EQPresetSchema = new Schema({
         max: [24,'can\'t boost hi mids more than 24 dB']
     },
     hiBand: {
-        type: String,
-        default: 'on'
+        type: Boolean,
+        default: true
     },
-    hiPeakShelf: {
-        type: String,
-        default: 'shelf'
+    hiShelf: {
+        type: Boolean,
+        default: true
     },
     hiFreq: {
         type: Number,
@@ -89,7 +89,7 @@ const EQPreset = mongoose.model('eqPreset', EQPresetSchema);
 module.exports = EQPreset;
 
 // Low band = On
-// Low peak/shelf = peak
+// Low /shelf = 
 // Low freq (Hz) = 108
 // Low gain = +4
 // Low/Mid band = On
@@ -100,7 +100,7 @@ module.exports = EQPreset;
 // Hi/Mid freq (kHz) = 2.4
 // Hi/Mid gain = +2
 // Hi band = On
-// Hi peak/shelf = peak
+// Hi /shelf = 
 // Hi freq (kHz) = 6.0
 // Hi gain = +4
 
@@ -110,7 +110,7 @@ module.exports = EQPreset;
 {
     "presetName": "Male Rock Vocal",
     "loBand": "on",
-    "loPeakShelf": "shelf",
+    "loShelf": "shelf",
     "loFreq": 163,
     "loGain": 2,
     "loMidBand": "on",
@@ -121,7 +121,7 @@ module.exports = EQPreset;
     "hiMidFreq": 2.4,
     "hiMidGain": -2,
     "hiBand": "on",
-    "hiPeakShelf": "shelf",
+    "hiShelf": "shelf",
     "hiFreq": 7.2,
     "hiGain": 4
 }
@@ -129,7 +129,7 @@ module.exports = EQPreset;
 {
     "presetName": "Warm DI Bass",
     "loBand": "on",
-    "loPeakShelf": "shelf",
+    "loShelf": "shelf",
     "loFreq": 110,
     "loGain": 4,
     "loMidBand": "on",
@@ -140,7 +140,7 @@ module.exports = EQPreset;
     "hiMidFreq": 1.6,
     "hiMidGain": 3,
     "hiBand": "on",
-    "hiPeakShelf": "shelf",
+    "hiShelf": "shelf",
     "hiFreq": 12,
     "hiGain": -3
 }

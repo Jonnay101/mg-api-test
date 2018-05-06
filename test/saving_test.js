@@ -1,4 +1,3 @@
-const mocha = require('mocha');
 const expect = require('chai').expect;
 const Comp = require('../models/Comp');
 const EQ = require('../models/EQ');
@@ -118,19 +117,21 @@ describe('saving EQ records', function () {
 
         eq.validate(function(err) {
             
-            expect(eq.loBand).to.equal('on');
-            expect(eq.loPeakShelf).to.equal('shelf');
+            expect(eq.loBand).to.equal(true);
+
+            expect(eq.loShelf).to.equal(true);
             expect(eq.loFreq).to.equal(80);
             expect(eq.loGain).to.equal(0);
-            expect(eq.loMidBand).to.equal('on');            
+            expect(eq.loMidBand).to.equal(true);            
             expect(eq.loMidHiQ).to.equal(false);
             expect(eq.loMidFreq).to.equal(290);
             expect(eq.loMidGain).to.equal(0);
-            expect(eq.hiMidBand).to.equal('on'); 
+            expect(eq.hiMidBand).to.equal(true); 
             expect(eq.hiMidFreq).to.equal(2.4);
             expect(eq.hiMidGain).to.equal(0);
-            expect(eq.hiBand).to.equal('on'); 
+            expect(eq.hiBand).to.equal(true); 
             expect(eq.hiFreq).to.equal(7);
+            expect(eq.hiShelf).to.equal(true);
             expect(eq.hiGain).to.equal(0);
             done();
         })
@@ -139,36 +140,31 @@ describe('saving EQ records', function () {
     it ('should be invalid if values lower than the min settings are given', function (done) {
         var eq = new EQ({
             presetName: 'default eq',
-            loBand: 'on',
-            loPeakShelf: 'shelf',
+            loBand: true,
+            loShelf: 'shelf',
             loFreq: -1,
             loGain: -25,
-            loMidBand: 'on',
+            loMidBand: true,
             loMidHiQ: false,
             loMidFreq: -1,
             loMidGain: -25,
-            hiMidBand: 'on',
+            hiMidBand: true,
             hiMidFreq: -0.1,
             hiMidGain: -25,
-            hiBand: 'on',
+            hiBand: true,
             hiFreq: -0.1,
             hiGain: -25
         });
 
         eq.validate(function(err) {
             
-            //expect(err.errors.loBand).to.exist;
-            //expect(err.errors.loPeakShelf).to.exist;
+            
             expect(err.errors.loFreq).to.exist;
             expect(err.errors.loGain).to.exist;
-            //expect(err.errors.loMidBand).to.exist;
-            //expect(err.errors.loMidHiQ).to.exist;
             expect(err.errors.loMidFreq).to.exist;
             expect(err.errors.loMidGain).to.exist;
-            //expect(err.errors.hiMidBand).to.exist;
             expect(err.errors.hiMidFreq).to.exist;
             expect(err.errors.hiMidGain).to.exist;
-            //expect(err.errors.hiBand).to.exist;
             expect(err.errors.hiFreq).to.exist;
             expect(err.errors.hiGain).to.exist;
             done();
@@ -178,36 +174,31 @@ describe('saving EQ records', function () {
     it ('should be invalid if values greater than the max settings are given', function (done) {
         var eq = new EQ({
             presetName: 'default eq',
-            loBand: 'on',
-            loPeakShelf: 'shelf',
+            loBand: true,
+            loShelf: 'shelf',
             loFreq: 48001,
             loGain: 25,
-            loMidBand: 'on',
+            loMidBand: true,
             loMidHiQ: false,
             loMidFreq: 48001,
             loMidGain: 25,
-            hiMidBand: 'on',
+            hiMidBand: true,
             hiMidFreq: 48.1,
             hiMidGain: 25,
-            hiBand: 'on',
+            hiBand: true,
             hiFreq: 48.1,
             hiGain: 25
         });
 
         eq.validate(function(err) {
             
-            //expect(err.errors.loBand).to.exist;
-            //expect(err.errors.loPeakShelf).to.exist;
+            
             expect(err.errors.loFreq).to.exist;
             expect(err.errors.loGain).to.exist;
-            //expect(err.errors.loMidBand).to.exist;
-            //expect(err.errors.loMidHiQ).to.exist;
             expect(err.errors.loMidFreq).to.exist;
             expect(err.errors.loMidGain).to.exist;
-            //expect(err.errors.hiMidBand).to.exist;
             expect(err.errors.hiMidFreq).to.exist;
             expect(err.errors.hiMidGain).to.exist;
-            //expect(err.errors.hiBand).to.exist;
             expect(err.errors.hiFreq).to.exist;
             expect(err.errors.hiGain).to.exist;
             done();
@@ -218,38 +209,31 @@ describe('saving EQ records', function () {
         var eq = new EQ({
             presetName: ['default eq'],
             loBand: 14,
-            loPeakShelf: {it:'shelf'},
+            loShelf: {it:'shelf'},
             loFreq: '48001',
             loGain: [25],
             loMidBand: 1,
-            loMidHiQ: [false],
+            loMidHiQ: [1],
             loMidFreq: '48001',
             loMidGain: '25',
-            hiMidBand: 'on',
+            hiMidBand: '',
             hiMidFreq: [48.1],
             hiMidGain: "25",
             hiBand: 12,
             hiFreq: "48.1",
-            hiGain: {yep:25}
+            hiGain: {yep:25},
+            hiShelf: 'blue'
         });
-
-        console.log(eq);
 
         eq.validate(function(err) {
 
-            //expect(err.errors.presetName).to.exist;
-            //expect(err.errors.loBand).to.exist; -- FAIL -- turns everything into a string or uses default
-            expect(err.errors.loPeakShelf).to.exist;
             expect(err.errors.loFreq).to.exist;
             expect(err.errors.loGain).to.exist;
-            //expect(err.errors.loMidBand).to.exist;
             expect(err.errors.loMidHiQ).to.exist;
             expect(err.errors.loMidFreq).to.exist;
             expect(err.errors.loMidGain).to.exist;
-            // expect(err.errors.hiMidBand).to.exist;
             expect(err.errors.hiMidFreq).to.exist;
             expect(err.errors.hiMidGain).to.exist;
-            //expect(err.errors.hiBand).to.exist;
             expect(err.errors.hiFreq).to.exist;
             expect(err.errors.hiGain).to.exist;
             done();
