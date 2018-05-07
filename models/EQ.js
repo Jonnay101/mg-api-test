@@ -109,39 +109,58 @@ module.exports = EQPreset;
 
 {
     "presetName": "Male Rock Vocal",
-    "loBand": "on",
-    "loShelf": "shelf",
+    "loBand": true,
+    "loShelf": true,
     "loFreq": 163,
     "loGain": 2,
-    "loMidBand": "on",
+    "loMidBand": true,
     "loMidHiQ": true,
     "loMidFreq": 290,
     "loMidGain": -6,
-    "hiMidBand": "on",
+    "hiMidBand": true,
     "hiMidFreq": 2.4,
     "hiMidGain": -2,
-    "hiBand": "on",
-    "hiShelf": "shelf",
+    "hiBand": true,
+    "hiShelf": true,
     "hiFreq": 7.2,
     "hiGain": 4
 }
 
 {
     "presetName": "Warm DI Bass",
-    "loBand": "on",
-    "loShelf": "shelf",
+    "loBand": true,
+    "loShelf": true,
     "loFreq": 110,
     "loGain": 4,
-    "loMidBand": "on",
+    "loMidBand": true,
     "loMidHiQ": false,
     "loMidFreq": 700,
     "loMidGain": 2,
-    "hiMidBand": "on",
+    "hiMidBand": true,
     "hiMidFreq": 1.6,
     "hiMidGain": 3,
-    "hiBand": "on",
-    "hiShelf": "shelf",
+    "hiBand": true,
+    "hiShelf": true,
     "hiFreq": 12,
     "hiGain": -3
+}
+
+{
+    "presetName": "Big Snare",
+    "loBand": true,
+    "loShelf": false,
+    "loFreq": 160,
+    "loGain": 5,
+    "loMidBand": true,
+    "loMidHiQ": false,
+    "loMidFreq": 1500,
+    "loMidGain": 2,
+    "hiMidBand": true,
+    "hiMidFreq": 3,
+    "hiMidGain": 2.5,
+    "hiBand": true,
+    "hiShelf": true,
+    "hiFreq": 8,
+    "hiGain": 10
 }
 */ 
