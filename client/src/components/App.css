@@ -43,7 +43,6 @@ body {
 .preset-list {
     display: flex;
     flex-direction: column;
-    
     list-style: none;
     padding: 0;
     margin: 0;
@@ -105,7 +104,7 @@ span.param-unit {
 /* button class */
 .btn {
     display: inline-block;
-    padding: 10px;
+    padding: 6px 10px;
     margin: 0 5px;
     text-align: center;
     cursor: pointer;
@@ -125,4 +124,42 @@ span.param-unit {
 .btn:active {
     box-shadow: 0 7px 20px rgba(0,0,0,0.3);
     transform: scale(1.01);
+}
+
+input[type="checkbox"] {
+    position: relative;
+    appearance: none;
+    height: 14px;
+    width: 45px;
+    background: #888;
+    border-radius: 30px;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.7);
+    transition: all .3s;
+    outline: none;
+}
+
+input:checked {
+    background: rgb(82, 131, 255);
+}
+
+input[type="checkbox"]:before {
+    content: 'Off';
+    font-size: 9px;
+    text-align: center;
+    line-height: 20px;
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.3);
+    transition: all .3s;
+}
+
+input:checked:before {
+    content: 'On';
+    left: 27px;
 }

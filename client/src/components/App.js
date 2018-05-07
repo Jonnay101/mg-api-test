@@ -4,6 +4,8 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import Header from './Header';
 import Eq from './Eq';
 
+require('./App.css');
+
 const User = () => <h2>User Page</h2>;
 const Comp = () => <h2>Comp</h2>;
 

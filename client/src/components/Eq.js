@@ -1,6 +1,5 @@
 import React from 'react';
 import SinglePreset from './SinglePreset';
-require('./Eq.css');
 
 
 class Eq extends React.Component {
@@ -11,17 +10,38 @@ class Eq extends React.Component {
             presets: [],
             currPreset: {},
             currPresetAltered: false,
-            defaultPreset: true,
-            activeIndex: null
+            activeIndex: null,
+            defaultInUse: true,
+            defaultPreset: {
+                hiBand:true,
+                hiShelf:true,
+                hiFreq:7.2,
+                hiGain:0,
+                hiMidBand:true,
+                hiMidFreq:2.4,
+                hiMidGain:0,
+                loMidBand:true,
+                loMidHiQ:true,
+                loMidFreq:290,
+                loMidGain:0,
+                loBand:true,
+                loShelf:true,
+                loFreq:80,
+                loGain:0,
+                presetName:"default"
+            },
+            modifyingNewPreset: false
         }// end of state       
     }
 
-    getEqPresets = () => {
+    getPresets () {
         return fetch('/api/user1234/eq')
             .then((res) => res.json())
             .then((data) => this.setState({presets: data}))
             .catch((err) => console.log('sorry, there\'s been an error... ' + err))
     }
+
+    
 
     componentDidMount () {
         const defaultPreset = {
@@ -43,12 +63,12 @@ class Eq extends React.Component {
             presetName:"default"
         }
 
-        this.setState({currPreset: defaultPreset});
+        this.setState({
+            currPreset: defaultPreset,
+            defaultInUse: true
+        });
 
-        fetch('/api/user1234/eq')
-            .then((res) => res.json())
-            .then((data) => this.setState({presets: data}, () => console.log('get request' ,this.state)))
-            .catch((err) => console.log('sorry, there\'s been an error... ' + err))
+        this.getPresets();
     }
 
     handlePresetClick(event) {
@@ -60,23 +80,21 @@ class Eq extends React.Component {
         })
         
         this.setState({
-        currPreset: newCurrPreset,
-        defaultPreset: false
-        }, function () {
-        //console.log(this.state.currPreset);
+            currPreset: newCurrPreset,
+            defaultInUse: false
         });
     }
 
     handleParamChange (paramObj) {
-        const { currPreset, currPresetAltered } = this.state;
+        const { currPreset } = this.state;
         const { paramName, paramValue } = paramObj;
         const newCurrPreset = {...currPreset };
         
         newCurrPreset[paramName] = paramValue;
         
         this.setState({
-        currPreset: newCurrPreset,
-        currPresetAltered: true
+            currPreset: newCurrPreset,
+            currPresetAltered: true
         });
     }
 
@@ -102,23 +120,8 @@ class Eq extends React.Component {
 
     saveNewPreset () {
         // connected to 'Save As' & 'New Preset' buttons
-        const { presets, currPreset } = this.state;
-        const newId = (presets.length + 1).toString(); // not needed for POST request
-        const newName = prompt('please enter a name for your new preset');        
-        
-        // saving to state
-        // if (newName && newName.length > 0) {
-        //     const newCurrPreset = { ...currPreset, presetName: newName, _id: newId};
-        //     const newPresets = [...presets, newCurrPreset]; 
- 
-        //     this.setState({
-        //         currPreset: newCurrPreset,
-        //         currPresetAltered: false,
-        //         presets: newPresets
-        //     }, () => console.log(this.state.presets));
-        // } else {
-        //     this.setState({error: 'you must give a new preset a name'});
-        // }
+        const { currPreset } = this.state;
+        const newName = prompt('please enter a name for your new preset');
 
         // making a POST request
         if (newName && newName.length > 0) {
@@ -144,46 +147,96 @@ class Eq extends React.Component {
                     }                    
                 })
                 .then(postedPreset => {
-                    const newPresets = this.getEqPresets().bind(this); 
-                    console.log(postedPreset);
+                    this.getPresets(); // grab preset list
                     this.setState({
                         currPreset: postedPreset,
                         currPresetAltered: false,
-                        defaultPreset: false
-                    }, () => console.log('POST request', this.state));
+                        defaultInUse: false
+                    });
                 })
                 .catch(err => console.log(err.message));
         }
     }
 
+    deleteCurrPreset() {
+        const { currPreset, defaultPreset } = this.state;
+        const currPresetId = currPreset._id;
+
+        if (currPresetId !== '0') {
+            // if preset is not default preset
+            const deleteURI = '/api/user1234/eq/' + currPresetId;
+
+            
+            fetch(deleteURI, {
+                method: 'DELETE',
+                headers: {
+                    "content-Type": "application/json",
+                }
+            })
+                .then(res => {
+                    if (res.ok){
+                        return res.json();
+                    } else {
+                        throw new Error('There was a problem with the deleteCurrPreset fetch... ')
+                    }
+                })
+                .then(deletedPreset => {
+                    console.log(deletedPreset)
+                    this.getPresets();
+                    this.setState({
+                        currPreset: defaultPreset,
+                        defaultInUse: true
+                    })
+                })
+                .catch(err => console.log(err.message));
+                  
+            
+        }
+        
+    }
+
     render() {
 
-        const { currPresetAltered, defaultPreset } = this.state;
+        const { currPresetAltered, defaultInUse } = this.state;
         
-        // setup save buttons
+        // setup save button
         const showSaveButton = () => {
-        if (currPresetAltered && !defaultPreset) {
-            // show save buttons 
-            return (
-            <button 
-                className="btn btn-default save-btn" 
-                onClick={this.saveCurrPreset.bind(this)}>
-                Save
-            </button> 
-            )
-        }// if
-        
+            if (currPresetAltered && !defaultInUse) {
+                // show save buttons 
+                return (
+                    <button 
+                        className="btn btn-default save-btn" 
+                        onClick={this.saveCurrPreset.bind(this)}>
+                        Save
+                    </button> 
+                )
+            }// if        
+        };
+
+        // setup delete button
+        const showDeleteButton = () => {
+            if (!defaultInUse) {
+                // show delete button
+                return (
+                    <button 
+                        className="btn btn-default save-btn" 
+                        onClick={this.deleteCurrPreset.bind(this)}>
+                        Delete
+                    </button> 
+                )
+            }// if        
         };
 
         //poulate the preset list
         const presetList = this.state.presets.map((preset, ind) => {
-        return (
-            <li 
-            onClick={this.handlePresetClick.bind(this)} 
-            key={preset._id} id={preset._id} 
-            className="preset-item btn">{preset.presetName}
-            </li>
-        );
+            return (
+                <li 
+                    onClick={this.handlePresetClick.bind(this)} 
+                    key={preset._id} id={preset._id} 
+                    className="preset-item btn">
+                    {preset.presetName}
+                </li>
+            );
         });    
         
         //return main component
@@ -192,6 +245,7 @@ class Eq extends React.Component {
             <h1>Eq Page</h1>
             <div className="buttons-block">
             <div className="save-buttons">
+                {showDeleteButton()}
                 {showSaveButton()}
                 <button 
                 className="btn btn-default save-btn" 

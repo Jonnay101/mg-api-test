@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "proxy": {
+   "proxy": {
     "/api/user1234":{
       "target": "http://localhost:5000"
     },
@@ -10,6 +10,9 @@
       "target": "http://localhost:5000"
     },
     "/api/user1234/eq":{
+      "target": "http://localhost:5000"
+    },
+    "/api/user1234/eq/:id":{
       "target": "http://localhost:5000"
     }
   },
