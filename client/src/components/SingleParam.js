@@ -20,21 +20,54 @@ class SingleParam extends React.Component {
 
     render(){
         const { paramName, presetId, param, paramUnit } = this.props;
+        const unit = paramUnit.toLowerCase();
+
+        const minRange = () => {            
+
+            if(unit === 'khz') {
+                return "1";
+            } else if (unit === 'hz') {
+                return  "20";
+            } else if (unit === 'db') {
+                return  "-24";
+            } else {
+                // default
+                return "0";
+            }
+        }
+
+        const maxRange = () => {
+
+            if(unit === 'khz') {
+                return "22";
+            } else if (unit === 'hz') {
+                return  "2000";
+            } else if (unit === 'db') {
+                return  "24";
+            } else {
+                // default
+                return "48000";
+            }
+        }
         
         return (
-            <div className="preset-display">        
-                <input 
-                    type="number"
-                    className="param-input" 
-                    onChange={this.handleInputChange} 
-                    name={presetId} 
-                    value={param}
-                />
+            <div className="preset-display">   
                 <label 
                     className="param-label"
                     htmlFor={presetId}>
-                    <span className="param-unit">({paramUnit})</span>{paramName}
-                </label>
+                    {paramName}
+                </label>     
+                <input 
+                    type="range"
+                    min={minRange()}
+                    max={maxRange()}
+                    step="0.1"
+                    className="param-input slider" 
+                    onChange={this.handleInputChange} 
+                    name={presetId} 
+                    value={param}
+                />                
+                <div className="param-display">{param}<span className="param-unit">({paramUnit})</span></div>
             </div>
         )
     }
@@ -45,7 +78,7 @@ SingleParam.PropTypes = {
     paramName: PropTypes.string ,
     param: PropTypes.number,
     presetId: PropTypes.string ,
-    paramUnit: PropTypes.string
+    paramUnit: PropTypes.string.isRequired
 }
 
 export default SingleParam;

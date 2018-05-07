@@ -219,7 +219,7 @@ class Eq extends React.Component {
                 // show delete button
                 return (
                     <button 
-                        className="btn btn-default save-btn" 
+                        className="btn btn-default delete-btn" 
                         onClick={this.deleteCurrPreset.bind(this)}>
                         Delete
                     </button> 

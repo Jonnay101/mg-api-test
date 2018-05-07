@@ -22,7 +22,12 @@ class SwitchParam extends React.Component {
         const { paramName, presetId, param, paramUnit } = this.props;
         
         return (
-            <div className="preset-display">        
+            <div className="preset-display">    
+                <label 
+                    className="param-label"
+                    htmlFor={presetId}>
+                    {paramName}
+                </label>    
                 <input 
                     type="checkbox"
                     className="param-switch" 
@@ -30,11 +35,7 @@ class SwitchParam extends React.Component {
                     name={presetId} 
                     checked={param}
                 />
-                <label 
-                    className="param-label"
-                    htmlFor={presetId}>
-                    <span className="param-unit">({paramUnit})</span>{paramName}
-                </label>
+                <div className="param-display"><span className="param-unit">({paramUnit})</span></div>
             </div>
         )
     }

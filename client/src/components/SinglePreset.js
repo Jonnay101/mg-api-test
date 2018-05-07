@@ -98,7 +98,7 @@ class SinglePreset extends React.Component {
                     paramName="loMidFreq" 
                     param={preset.loMidFreq} 
                     presetId={preset._id}
-                    paramUnit = "kHz"
+                    paramUnit = "Hz"
                 />
 
                 <SingleParam 
@@ -130,7 +130,7 @@ class SinglePreset extends React.Component {
                     paramName="loFreq" 
                     param={preset.loFreq} 
                     presetId={preset._id}
-                    paramUnit = "kHz"
+                    paramUnit = "Hz"
                 />
 
                 <SingleParam 
