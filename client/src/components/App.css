@@ -31,6 +31,7 @@ body {
 
 .choose-proc {
     margin-top: 10px;
+    color: #777;
 }
 
 .page-nav {
@@ -42,9 +43,21 @@ body {
 }
 
 .page-link {
-    font-size: 3rem !important;
+    position: relative;
+    font-size: 4rem !important;
     text-decoration: none;
-    color: orangered;
+    color: #f07d01;
+}
+
+.page-link:first-of-type {
+    transform: rotate(20deg);
+    transform-origin: top left;
+    z-index: 5;
+}
+
+.page-link:last-of-type {
+    transform: skew(-2deg) rotate(5deg);
+    transform-origin: top left;
 }
 
 .eq-page > h1 {
@@ -82,12 +95,13 @@ body {
     padding: 10px;
 }
 
-button.save-btn--new {
-    background-color: #22da22!important;
+button.save-btn--new {  
+    background-color: #333;  
+    color:  #f07d01;
 }
 
 button.delete-btn {
-    background: rgb(150, 0, 0);
+    background: #960000;
 }
 
 /* preset list */
@@ -101,7 +115,7 @@ button.delete-btn {
 }
 
 .preset-list>h4 {
-    color: #b73333;
+    color: #f07d01;
 }
 
 .preset-item {
@@ -120,7 +134,7 @@ button.delete-btn {
 
 .chosen-preset {
     font-style: italic;
-    color: blue;
+    color:#2764ff;
 }
 
 .preset-display {
@@ -200,8 +214,8 @@ input[type="checkbox"] {
     display: block;
     appearance: none;
     height: 10px;
-    width: 45px;
-    background: #888;
+    width: 40px;
+    background: #333;
     border-radius: 30px;
     box-shadow: inset 0 0 5px rgba(0,0,0,0.7);
     transition: all .3s;
@@ -209,7 +223,7 @@ input[type="checkbox"] {
 }
 
 input:checked {
-    background: rgb(82, 131, 255);
+    background: #f07d01;
 }
 
 input[type="checkbox"]:before {
@@ -231,7 +245,7 @@ input[type="checkbox"]:before {
 
 input:checked:before {
     content: 'On';
-    left: 27px;
+    left: 22px;
 }
 
 .slider {

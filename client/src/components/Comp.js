@@ -292,7 +292,7 @@ class Comp extends React.Component {
             </div>
             <div className="eq-display">
                 <ul className="preset-list">
-                    <h4>Select Preset</h4>
+                    <h4>Select Preset...</h4>
                     {presetList}
                 </ul>
                 <SinglePreset 
