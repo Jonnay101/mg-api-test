@@ -14,6 +14,8 @@ mongoose.Promise = global.Promise;
 // parse the incoming data
 app.use(bodyParser.json());
 
+app.use(express.static('client/build'));
+
 // create the routes for comp presets
 app.use('/api', fxRoutes);
 
@@ -23,9 +25,7 @@ app.use(function (err, req, res, next) {
     res.status(422).send({error: err.message});
 });
 
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('client/build'));
-}
+
 
 const PORT = process.env.PORT || 5000;
 
