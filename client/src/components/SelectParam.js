@@ -7,20 +7,24 @@ class SwitchParam extends React.Component {
         this.handleInputChange = this.handleInputChange.bind(this);   
     }
 
+    static defaultProps = {
+        param: ''
+    }
+
     handleInputChange (e) {
         const target = e.target;
         const {paramName, onParamChange} = this.props
         const paramChangeInfo = {
-        presetId: target.name,
-        paramValue: target.checked,
-        paramName
+            presetId: target.name,
+            paramValue: target.value,
+            paramName
         }
         onParamChange(paramChangeInfo);
     }    
 
     render(){
-        const { paramName, presetId, param} = this.props;
-        
+        const { paramName, presetId, param } = this.props;
+
         return (
             <div className="preset-display">    
                 <label 
@@ -28,13 +32,18 @@ class SwitchParam extends React.Component {
                     htmlFor={presetId}>
                     {paramName}
                 </label>    
-                <input 
-                    type="checkbox"
-                    className="param-switch" 
+                <select 
+                    className="param-select" 
                     onChange={this.handleInputChange} 
                     name={presetId} 
-                    checked={param}
-                />
+                    value={param}
+                >
+                    <option value="Creative">Creative</option>
+                    <option value="Opto">Opto</option>
+                    <option value="FET">FET</option>
+                    <option value="Vari-Mu">Vari-Mu</option>
+                    <option value="VCA">Vari-Mu</option>
+                </select>
             </div>
         )
     }

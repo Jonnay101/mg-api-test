@@ -108,6 +108,11 @@ button.delete-btn {
     margin-bottom: 10px;
 }
 
+.param-select {
+    float: right;
+    width: 120px;
+}
+
 .param-label {
     margin-bottom: 10px;
     font-size: 12px;

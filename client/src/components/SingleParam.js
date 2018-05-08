@@ -30,6 +30,10 @@ class SingleParam extends React.Component {
                 return  "20";
             } else if (unit === 'db') {
                 return  "-24";
+            } else if (unit === 'ms') {
+                return  (paramName.toLowerCase() === 'attack' ? 0.2 : 5);
+            } else if (unit === ':1') {
+                return  1;
             } else {
                 // default
                 return "0";
@@ -44,16 +48,22 @@ class SingleParam extends React.Component {
                 return  "2000";
             } else if (unit === 'db') {
                 return  "24";
+            } else if (unit === 'ms') {
+                return  (paramName.toLowerCase() === 'attack' ? 200 : 2000);
+            } else if (unit === ':1') {
+                return  100;
             } else {
                 // default
                 return "48000";
             }
         }
+
+        const paramClass = 'param-input ' + paramName;
         
         return (
             <div className="preset-display">   
                 <label 
-                    className="param-label"
+                    className={paramClass}
                     htmlFor={presetId}>
                     {paramName}
                 </label>     

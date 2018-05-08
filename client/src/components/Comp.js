@@ -8,10 +8,8 @@ function debounce (func, wait, immediate) {
             args = arguments;        
         var later = function() {                   
             timeout = null;   
-            if ( !immediate ) {
-        
+            if ( !immediate ) {        
                 func.apply(context, args);
-
             }
         };
         var callNow = immediate && !timeout;        
@@ -24,35 +22,27 @@ function debounce (func, wait, immediate) {
     };
 };
 
-
-class Eq extends React.Component {
+class Comp extends React.Component {
     constructor (props) {
         super(props);
         this.updatePreset = debounce(this.updatePreset, 250);
         this.state = {
             presets: [],
+            error: null,
             currPreset: {},
             currPresetAltered: false,
             activeIndex: null,
             defaultInUse: true,
             defaultPreset: {
-                hiBand:true,
-                hiShelf:true,
-                hiFreq:7.2,
-                hiGain:0,
-                hiMidBand:true,
-                hiMidFreq:2.4,
-                hiMidGain:0,
-                loMidBand:true,
-                loMidHiQ:true,
-                loMidFreq:290,
-                loMidGain:0,
-                loBand:true,
-                loShelf:true,
-                loFreq:80,
-                loGain:0,
-                presetName:"default",
-                _id:0
+                mode: 'FET',
+                attack: 10,
+                release: 100,
+                threshold: -12,
+                ratio: 4,
+                presence: 0,
+                makeUp: 0,
+                _id: 0,
+                presetName:"default"
             },
             modifyingNewPreset: false
         };      
@@ -60,29 +50,17 @@ class Eq extends React.Component {
     }
 
     getPresets () {
-        return fetch('/api/user1234/eq')
-            .then(res => {
-                if (res.ok){
-                    return res.json();
-                } else {
-                    throw new Error('sorry, there was an error while loading the presets... ')
-                }
-            })
+        return fetch('/api/user1234/comp')
+            .then((res) => res.json())
             .then((data) => this.setState({presets: data}))
-            .catch((err) => this.setState({error: err.message}))
+            .catch((err) => console.log('sorry, there\'s been an error... ' + err))
     }
     
     getSinglePreset (id) {
-        return fetch('/api/user1234/eq/' + id)
-            .then((res) => {
-                if (res.ok){
-                    return res.json();
-                } else {
-                    throw new Error('sorry, there was an error while loading a single preset... ')
-                }
-            })
-            .then((data) => data)
-            .catch((err) => this.setState({error: err.message}))
+        return fetch('/api/user1234/comp/' + id)
+            .then((res) => res.json())
+            .then((data) => console.log(data))
+            .catch((err) => console.log('sorry, there\'s been an error... ' + err))
     }
 
     componentDidMount () {
@@ -100,20 +78,20 @@ class Eq extends React.Component {
         const { presets } = this.state;
         
         const newCurrPreset = presets.find((preset, ind) => {
-            return preset._id === presetId;
+        return preset._id === presetId;
         })
         
         this.setState({
             currPreset: newCurrPreset,
             defaultInUse: false
         });
-
     }
 
     updatePreset(paramObj) {
         if (!this.state.defaultInUse) {
             const { paramValue, paramName, presetId } = paramObj;
-            fetch('/api/user1234/eq/' + presetId, {
+            console.log(presetId);
+            fetch('/api/user1234/comp/' + presetId, {
                 method: 'PUT',
                 headers: {
                     'content-type': 'application/json'
@@ -132,8 +110,7 @@ class Eq extends React.Component {
                 this.setState({
                     currPreset: data
                 });
-            })
-            .catch(err => this.setState({error: err.message}));
+            });
         }        
     }
 
@@ -151,7 +128,6 @@ class Eq extends React.Component {
             currPresetAltered: true
         });
     }
-
 
     saveCurrPreset () {
         const { presets, currPreset } = this.state;     
@@ -173,6 +149,14 @@ class Eq extends React.Component {
         }    
     }
 
+    createNewPreset () {
+        const newPreset = {...this.state.default};
+        this.setState({
+            currPreset: newPreset,        
+            defaultInUse: true
+        }, () => this.saveNewPreset());
+    }
+
     saveNewPreset () {
         // connected to 'Save As' & 'New Preset' buttons
         const { currPreset } = this.state;
@@ -182,23 +166,22 @@ class Eq extends React.Component {
         if (newName && newName.length > 0) {
             const newCurrPreset = { 
                 ...currPreset, 
-                presetName: newName, 
-                _id: null
+                presetName: newName
             };
             // make a POST request -- send newCurrPreset as body
 
-            fetch('/api/user1234/eq', {
+            fetch('/api/user1234/comp', {
                 method: 'POST',
                 body: JSON.stringify(newCurrPreset), 
                 headers: {
-                'content-type': 'application/json'
+                    'content-type': 'application/json'
                 }
             })
                 .then(res => {
                     if (res.ok) {
                         return res.json()
                     } else {
-                        throw new Error('something went wrong while saving your new preset... ');
+                        throw new Error('something went wrong... ');
                     }                    
                 })
                 .then(postedPreset => {
@@ -207,14 +190,10 @@ class Eq extends React.Component {
                         currPreset: postedPreset,
                         currPresetAltered: false,
                         defaultInUse: false
-                    });
+                    });                    
                 })
-                .catch(err => this.setState({error: err.message}));
+                .catch(err => console.log(err.message));
         }
-    }
-
-    createNewPreset () {
-        this.setState({currPreset: this.state.defaultPreset}, () => this.saveNewPreset());
     }
 
     deleteCurrPreset() {
@@ -223,8 +202,9 @@ class Eq extends React.Component {
 
         if (currPresetId !== '0') {
             // if preset is not default preset
-            const deleteURI = '/api/user1234/eq/' + currPresetId;
+            const deleteURI = '/api/user1234/comp/' + currPresetId;
 
+            
             fetch(deleteURI, {
                 method: 'DELETE',
                 headers: {
@@ -235,7 +215,7 @@ class Eq extends React.Component {
                     if (res.ok){
                         return res.json();
                     } else {
-                        throw new Error('There was a problem deleting your preset... ')
+                        throw new Error('There was a problem deleting the preset ... ')
                     }
                 })
                 .then(deletedPreset => {
@@ -245,7 +225,7 @@ class Eq extends React.Component {
                         defaultInUse: true
                     })
                 })
-                .catch(err => this.setState({error: err.message}));                
+                .catch(err => console.log(err.message));
             
         }
         
@@ -253,9 +233,8 @@ class Eq extends React.Component {
 
     render() {
 
-        const { defaultInUse, error } = this.state;
+        const { defaultInUse } = this.state;
         
-        // setup delete button
         const showAutoSave = () => {
             if (!defaultInUse) {
                 // show delete button
@@ -281,7 +260,6 @@ class Eq extends React.Component {
 
         //poulate the preset list
         const presetList = this.state.presets.map((preset, ind) => {
-            //console.log('presetList calles')
             return (
                 <li 
                     onClick={this.handlePresetClick.bind(this)} 
@@ -290,11 +268,7 @@ class Eq extends React.Component {
                     {preset.presetName}
                 </li>
             );
-        });
-        
-        if (error) {
-            return <p>{error}</p>
-        }
+        });    
         
         //return main component
         return (
@@ -324,7 +298,7 @@ class Eq extends React.Component {
                 <SinglePreset 
                     onParamChange={this.handleParamChange.bind(this).bind(this)} 
                     preset={this.state.currPreset}
-                    fxType="eq"
+                    fxType="comp"
                 />
             </div>        
         </div>
@@ -332,4 +306,4 @@ class Eq extends React.Component {
     }
 }
 
-export default Eq;
+export default Comp;

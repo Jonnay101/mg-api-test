@@ -21,7 +21,7 @@ const CompPresetSchema = new Schema({
         type: Number,
         default: 100,
         min: [5, 'attack time parameter must be set slower than 5ms'],
-        max: [5000, 'attack time parameter must be set faster than 5000ms'],
+        max: [2000, 'attack time parameter must be set faster than 2000ms'],
         required: true
     },
     threshold: {
