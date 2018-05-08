@@ -3,5 +3,5 @@ if (process.env.NODE_ENV === 'porduction') {
     module.exports = require('./prod');
 } else {
     // return dev keys
-    //module.exports = require('./dev') || {};
+    module.exports = require('./dev') || {};
 }
