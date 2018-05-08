@@ -12,6 +12,7 @@ body {
 /* Eq page */
 .eq-page {
     max-width: 600px;
+    min-width: 480px;
     margin: 0 auto;
     background: #fff;
 }
@@ -32,10 +33,22 @@ body {
     margin-bottom: 10px;
 }
 
+.auto-save-warning {
+    display: inline-block;
+    text-align: left;
+    padding: 15px 20px;
+}
+
+.buttons-block {
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0 3px 30px rgba(0,0,0,0.2);
+}
+
 .save-buttons {
+    margin-left: auto;
+    display: block;
     text-align: right;
-    border-bottom: 1px solid #ccc;
-    background: #f7f7f7;
     padding: 10px;
 }
 
@@ -178,7 +191,7 @@ input:checked:before {
 .slider {
     -webkit-appearance: none;
     appearance: none;
-    width: 200px; 
+    width: 300px; 
     height: 5px;
     background: #ddd;
     outline: none; 
@@ -199,6 +212,7 @@ input:checked:before {
     border-radius: 10px;
     background-color: #fff;
     box-shadow: 0 1px 5px rgba(0,0,0,0.3);
+    transition: all .2s;
     cursor: pointer; 
 }
 

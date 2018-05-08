@@ -3,6 +3,7 @@ const router = express.Router();
 const Comp = require('../models/Comp');
 const EQ =  require('../models/EQ');
 
+// get all presets
 router.get('/user1234/:fx', function (req, res, next) {
     // get all comp or eq presets depending on fx
     var { fx } = req.params;
@@ -18,6 +19,23 @@ router.get('/user1234/:fx', function (req, res, next) {
     }
 });
 
+// get singular preset
+router.get('/user1234/:fx/:id', function (req, res, next) {
+    // get single comp or eq preset depending on fx
+    var { fx, id } = req.params;
+
+    if (fx === 'comp') {
+
+        Comp.findById({_id: id}).then(compPreset => res.send(compPreset)).catch(next);
+
+    } else if (fx === 'eq') {
+
+        EQ.findById({_id: id}).then(eqPreset => res.send(eqPreset)).catch(next);
+
+    }
+});
+
+// add new preset
 router.post('/user1234/:fx', (req, res, next) => {
     // insert new fx presets depending on :fx 
     var { fx } = req.params;
@@ -33,6 +51,7 @@ router.post('/user1234/:fx', (req, res, next) => {
     }
 });
 
+//update existing preset
 router.put('/user1234/:fx/:id', (req, res, next) => {
     // update fx presets depending on :fx and :id
     var { fx, id } = req.params;
@@ -56,6 +75,7 @@ router.put('/user1234/:fx/:id', (req, res, next) => {
     }
 });
 
+// remove a preset
 router.delete('/user1234/:fx/:id', (req, res, next) => {
     // update fx presets depending on :fx and :id
     var { fx, id } = req.params;

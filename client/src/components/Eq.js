@@ -1,11 +1,34 @@
 import React from 'react';
 import SinglePreset from './SinglePreset';
 
+function debounce (func, wait, immediate) {    
+    var timeout;
+    return function() {
+        var context = this,   
+            args = arguments;        
+        var later = function() {                   
+            timeout = null;   
+            if ( !immediate ) {
+        
+                func.apply(context, args);
+
+            }
+        };
+        var callNow = immediate && !timeout;        
+        clearTimeout(timeout);            
+        timeout = setTimeout(later, wait || 1000);
+        if ( callNow ) { 
+    
+            func.apply(context, args);
+        }
+    };
+};
+
 
 class Eq extends React.Component {
     constructor (props) {
-        super(props)
-        
+        super(props);
+        this.updatePreset = debounce(this.updatePreset, 250);
         this.state = {
             presets: [],
             currPreset: {},
@@ -31,7 +54,8 @@ class Eq extends React.Component {
                 presetName:"default"
             },
             modifyingNewPreset: false
-        }// end of state       
+        };      
+        
     }
 
     getPresets () {
@@ -40,8 +64,13 @@ class Eq extends React.Component {
             .then((data) => this.setState({presets: data}))
             .catch((err) => console.log('sorry, there\'s been an error... ' + err))
     }
-
     
+    getSinglePreset (id) {
+        return fetch('/api/user1234/eq/' + id)
+            .then((res) => res.json())
+            .then((data) => console.log(data))
+            .catch((err) => console.log('sorry, there\'s been an error... ' + err))
+    }
 
     componentDidMount () {
         const defaultPreset = {
@@ -85,10 +114,38 @@ class Eq extends React.Component {
         });
     }
 
+    updatePreset(paramObj) {
+        if (!this.state.defaultInUse) {
+            const { paramValue, paramName, presetId } = paramObj;
+            fetch('/api/user1234/eq/' + presetId, {
+                method: 'PUT',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify({[paramName] : paramValue})
+            })
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+                } else {
+                    throw new Error('something went wrong woth the PUT request');
+                }
+            })
+            .then(data => {
+                this.getPresets();
+                this.setState({
+                    currPreset: data
+                });
+            });
+        }        
+    }
+
     handleParamChange (paramObj) {
         const { currPreset } = this.state;
         const { paramName, paramValue } = paramObj;
         const newCurrPreset = {...currPreset };
+        
+        this.updatePreset(paramObj);
         
         newCurrPreset[paramName] = paramValue;
         
@@ -97,6 +154,7 @@ class Eq extends React.Component {
             currPresetAltered: true
         });
     }
+
 
     saveCurrPreset () {
         const { presets, currPreset } = this.state;     
@@ -200,15 +258,24 @@ class Eq extends React.Component {
         const { currPresetAltered, defaultInUse } = this.state;
         
         // setup save button
-        const showSaveButton = () => {
-            if (currPresetAltered && !defaultInUse) {
-                // show save buttons 
-                return (
-                    <button 
-                        className="btn btn-default save-btn" 
-                        onClick={this.saveCurrPreset.bind(this)}>
-                        Save
-                    </button> 
+        // const showSaveButton = () => {
+        //     if (currPresetAltered && !defaultInUse) {
+        //         // show save buttons 
+        //         return (
+        //             <button 
+        //                 className="btn btn-default save-btn" 
+        //                 onClick={this.saveCurrPreset.bind(this)}>
+        //                 Save
+        //             </button> 
+        //         )
+        //     }// if        
+        // };
+        // setup delete button
+        const showAutoSave = () => {
+            if (!defaultInUse) {
+                // show delete button
+                return (                    
+                    <div className="auto-save-warning">Auto Save Enabled</div>                         
                 )
             }// if        
         };
@@ -217,12 +284,12 @@ class Eq extends React.Component {
         const showDeleteButton = () => {
             if (!defaultInUse) {
                 // show delete button
-                return (
+                return (                    
                     <button 
                         className="btn btn-default delete-btn" 
                         onClick={this.deleteCurrPreset.bind(this)}>
                         Delete
-                    </button> 
+                    </button>                              
                 )
             }// if        
         };
@@ -242,27 +309,27 @@ class Eq extends React.Component {
         //return main component
         return (
         <div className="eq-page">
-            <h1>Eq Page</h1>
             <div className="buttons-block">
-            <div className="save-buttons">
-                {showDeleteButton()}
-                {showSaveButton()}
-                <button 
-                className="btn btn-default save-btn" 
-                onClick={this.saveNewPreset.bind(this)}>
-                Save As
-                </button>
-            </div>
+                {showAutoSave()}  
+                <div className="save-buttons">
+                    {showDeleteButton()}
+                    {/* {showSaveButton()} */}
+                    <button 
+                    className="btn btn-default save-btn" 
+                    onClick={this.saveNewPreset.bind(this)}>
+                    Save As
+                    </button>
+                </div>
             </div>
             <div className="eq-display">
-            <ul className="preset-list">
-                <h4>Select Preset</h4>
-                {presetList}
-            </ul>
-            <SinglePreset 
-                onParamChange={this.handleParamChange.bind(this)} 
-                preset={this.state.currPreset}
-            />
+                <ul className="preset-list">
+                    <h4>Select Preset</h4>
+                    {presetList}
+                </ul>
+                <SinglePreset 
+                    onParamChange={this.handleParamChange.bind(this).bind(this)} 
+                    preset={this.state.currPreset}
+                />
             </div>        
         </div>
         )
