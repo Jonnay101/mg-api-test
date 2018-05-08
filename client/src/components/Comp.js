@@ -90,7 +90,7 @@ class Comp extends React.Component {
     updatePreset(paramObj) {
         if (!this.state.defaultInUse) {
             const { paramValue, paramName, presetId } = paramObj;
-            console.log(presetId);
+            
             fetch('/api/user1234/comp/' + presetId, {
                 method: 'PUT',
                 headers: {
@@ -284,7 +284,7 @@ class Comp extends React.Component {
                         Save As
                     </button>
                     <button 
-                        className="btn btn-default save-btn" 
+                        className="btn btn-default save-btn save-btn--new" 
                         onClick={this.createNewPreset.bind(this)}>
                         New Preset
                     </button>

@@ -29,7 +29,7 @@ class SingleParam extends React.Component {
             } else if (unit === 'hz') {
                 return  "20";
             } else if (unit === 'db') {
-                return  "-24";
+                return  (paramName.toLowerCase() === 'threshold' ? "-60": "-24");
             } else if (unit === 'ms') {
                 return  (paramName.toLowerCase() === 'attack' ? 0.2 : 5);
             } else if (unit === ':1') {
@@ -47,8 +47,8 @@ class SingleParam extends React.Component {
             } else if (unit === 'hz') {
                 return  "2000";
             } else if (unit === 'db') {
-                return  "24";
-            } else if (unit === 'ms') {
+                return  (paramName.toLowerCase() === 'threshold' ? "0": "24");
+            }  else if (unit === 'ms') {
                 return  (paramName.toLowerCase() === 'attack' ? 200 : 2000);
             } else if (unit === ':1') {
                 return  100;

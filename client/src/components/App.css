@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Caveat+Brush');
+
 * {
     margin: 0;
     padding: 0;
@@ -7,14 +9,42 @@
 body {
     background: #333;
     box-sizing: border-box;
-    font-family: sans-serif;
+    font-family: 'Caveat Brush', cursive;
+    font-size: 62.5%;
+    font-size: 1.4rem;
+    color: #333;
   }
 /* Eq page */
-.eq-page {
+.eq-page,
+.user-home-page {
     max-width: 600px;
     min-width: 480px;
     margin: 0 auto;
     background: #fff;
+}
+
+.user-home-page {
+    padding: 40px 20px;
+    height: 60vh;
+    position: relative;
+}
+
+.choose-proc {
+    margin-top: 10px;
+}
+
+.page-nav {
+    position: absolute;
+    padding: 40px 0;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.page-link {
+    font-size: 3rem !important;
+    text-decoration: none;
+    color: orangered;
 }
 
 .eq-page > h1 {
@@ -52,6 +82,10 @@ body {
     padding: 10px;
 }
 
+button.save-btn--new {
+    background-color: #22da22!important;
+}
+
 button.delete-btn {
     background: rgb(150, 0, 0);
 }
@@ -64,6 +98,10 @@ button.delete-btn {
     padding: 0;
     margin: 0;
     width: 30%;
+}
+
+.preset-list>h4 {
+    color: #b73333;
 }
 
 .preset-item {
@@ -94,8 +132,6 @@ button.delete-btn {
 /* single param */
 .param-input {
     display: block;
-    font-size: 12px;
-    font-weight: 300;
 }
 
 .param-switch {
@@ -111,15 +147,17 @@ button.delete-btn {
 .param-select {
     float: right;
     width: 120px;
+    font-family: 'Caveat Brush', cursive;
+    font-family: 1.1rem;
 }
 
 .param-label {
     margin-bottom: 10px;
-    font-size: 12px;
+    font-size: 1.3rem;
 }
 
 .param-display {
-    font-size: 12px;
+    font-size: 1.2rem;
     font-weight: 600;
 }
 
@@ -139,6 +177,9 @@ button.delete-btn {
     background: #fff;
     border: none;
     backface-visibility: hidden;
+    font-family: 'Caveat Brush', cursive;
+    font-size: 1.2rem;
+    border-radius: 3px;
 }
 
 .btn:hover,
@@ -173,7 +214,7 @@ input:checked {
 
 input[type="checkbox"]:before {
     content: 'Off';
-    font-size: 9px;
+    font-size: .7rem;
     text-align: center;
     line-height: 20px;
     position: absolute;

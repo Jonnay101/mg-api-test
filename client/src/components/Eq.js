@@ -8,17 +8,14 @@ function debounce (func, wait, immediate) {
             args = arguments;        
         var later = function() {                   
             timeout = null;   
-            if ( !immediate ) {
-        
+            if ( !immediate ) {        
                 func.apply(context, args);
-
             }
         };
         var callNow = immediate && !timeout;        
         clearTimeout(timeout);            
         timeout = setTimeout(later, wait || 1000);
-        if ( callNow ) { 
-    
+        if ( callNow ) {    
             func.apply(context, args);
         }
     };
@@ -245,7 +242,7 @@ class Eq extends React.Component {
                         defaultInUse: true
                     })
                 })
-                .catch(err => this.setState({error: err.message}));                
+                .catch(err => this.setState({error: err.message}));    
             
         }
         
@@ -310,7 +307,8 @@ class Eq extends React.Component {
                         Save As
                     </button>
                     <button 
-                        className="btn btn-default save-btn" 
+                        id="new-preset-btn"
+                        className="btn btn-default save-btn save-btn--new" 
                         onClick={this.createNewPreset.bind(this)}>
                         New Preset
                     </button>

@@ -1,0 +1,32 @@
+.nav-bar {
+    padding: 6px 20px;
+    background-color: #333;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #fff;
+    border-bottom: 3px solid #555;
+    letter-spacing: 4px;
+    transition: all .2s;
+}
+
+.nav-link:hover {
+    color: #f07d01;
+    border-color: #fff;
+    letter-spacing: 5px;
+}
+
+.nav-link:not(:last-child) {
+    margin-right: 20px;
+}
+
+.active {
+    border-color: #bb3c0d;
+}
+
+@media screen and (min-width: 620px) {
+    .nav-bar {padding: 6px 0;}
+}

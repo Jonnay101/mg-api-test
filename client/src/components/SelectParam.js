@@ -42,7 +42,7 @@ class SwitchParam extends React.Component {
                     <option value="Opto">Opto</option>
                     <option value="FET">FET</option>
                     <option value="Vari-Mu">Vari-Mu</option>
-                    <option value="VCA">Vari-Mu</option>
+                    <option value="VCA">VCA</option>
                 </select>
             </div>
         )
