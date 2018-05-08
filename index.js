@@ -7,6 +7,10 @@ const { mongoURI } = require('./config/keys');
 // create express app
 const app = express();
 
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static('client/build'));
+}
+
 // connect to mongodb
 mongoose.connect(mongoURI);
 mongoose.Promise = global.Promise;
@@ -14,7 +18,8 @@ mongoose.Promise = global.Promise;
 // parse the incoming data
 app.use(bodyParser.json());
 
-app.use(express.static('client/build'));
+
+
 
 // create the routes for comp presets
 app.use('/api', fxRoutes);
