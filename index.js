@@ -8,7 +8,7 @@ const { mongoURI } = require('./config/keys');
 const app = express();
 
 if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('client/build'));
+    app.use(express.static('api/user1234/client/build'));
 }
 
 // connect to mongodb
