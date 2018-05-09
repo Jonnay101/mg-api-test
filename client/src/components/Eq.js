@@ -15,12 +15,12 @@ function debounce (func, wait, immediate) {
         var callNow = immediate && !timeout;        
         clearTimeout(timeout);            
         timeout = setTimeout(later, wait || 1000);
-        if ( callNow ) {    
+        if ( callNow ) { 
+    
             func.apply(context, args);
         }
     };
 };
-
 
 class Eq extends React.Component {
     constructor (props) {
@@ -51,13 +51,14 @@ class Eq extends React.Component {
                 presetName:"default",
                 _id:0
             },
-            modifyingNewPreset: false
+            modifyingNewPreset: false,
+            apiURI: '/api/user1234/eq'
         };      
         
     }
 
     getPresets () {
-        return fetch('/api/user1234/eq')
+        return fetch(this.state.apiURI)
             .then(res => {
                 if (res.ok){
                     return res.json();
@@ -70,7 +71,7 @@ class Eq extends React.Component {
     }
     
     getSinglePreset (id) {
-        return fetch('/api/user1234/eq/' + id)
+        return fetch(this.state.apiURI + '/' + id)
             .then((res) => {
                 if (res.ok){
                     return res.json();
@@ -110,7 +111,8 @@ class Eq extends React.Component {
     updatePreset(paramObj) {
         if (!this.state.defaultInUse) {
             const { paramValue, paramName, presetId } = paramObj;
-            fetch('/api/user1234/eq/' + presetId, {
+
+            fetch(this.state.apiURI + '/' + presetId, {
                 method: 'PUT',
                 headers: {
                     'content-type': 'application/json'
@@ -177,12 +179,35 @@ class Eq extends React.Component {
 
         // making a POST request
         if (newName && newName.length > 0) {
-            const newCurrPreset = { 
-                ...currPreset, 
-                presetName: newName, 
-                _id: null
-            };
+
+            var newCurrPreset = {};
+
+            // if (currPreset._id === 0 || !currPreset._id) {
+            //     newCurrPreset = { 
+            //         presetName: newName
+            //     };
+            // } else {
+            //     newCurrPreset = {
+            //         ...currPreset,
+            //         presetName: newName
+            //     };
+            // }
+
+            for (var key in currPreset) {
+                if (currPreset.hasOwnProperty(key)) {
+                    if (key !== '_id' && key !== 'presetName') {
+                        newCurrPreset[key] = currPreset[key];
+                    } else if (key === 'presetName') {
+                        newCurrPreset.presetName = newName;
+                    }
+                } 
+            }
+
+            
+            
             // make a POST request -- send newCurrPreset as body
+
+            console.log(newCurrPreset);
 
             fetch('/api/user1234/eq', {
                 method: 'POST',
@@ -220,7 +245,7 @@ class Eq extends React.Component {
 
         if (currPresetId !== '0') {
             // if preset is not default preset
-            const deleteURI = '/api/user1234/eq/' + currPresetId;
+            const deleteURI = this.state.apiURI + '/' + currPresetId;
 
             fetch(deleteURI, {
                 method: 'DELETE',
@@ -290,7 +315,7 @@ class Eq extends React.Component {
         });
         
         if (error) {
-            return <p>{error}</p>
+            return <p style={{color: 'red'}}>{error}</p>
         }
         
         //return main component

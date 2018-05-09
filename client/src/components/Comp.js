@@ -44,13 +44,14 @@ class Comp extends React.Component {
                 _id: 0,
                 presetName:"default"
             },
-            modifyingNewPreset: false
+            modifyingNewPreset: false,
+            apiURI:'/api/user1234/comp'
         };      
         
     }
 
     getPresets () {
-        return fetch('/api/user1234/comp')
+        return fetch(this.state.apiURI)
             .then((res) => res.json())
             .then((data) => this.setState({presets: data}))
             .catch((err) => console.log('sorry, there\'s been an error... ' + err))
@@ -91,7 +92,7 @@ class Comp extends React.Component {
         if (!this.state.defaultInUse) {
             const { paramValue, paramName, presetId } = paramObj;
             
-            fetch('/api/user1234/comp/' + presetId, {
+            fetch(this.state.apiURI + '/' + presetId, {
                 method: 'PUT',
                 headers: {
                     'content-type': 'application/json'
@@ -118,7 +119,6 @@ class Comp extends React.Component {
         const { currPreset } = this.state;
         const { paramName, paramValue } = paramObj;
         const newCurrPreset = {...currPreset };
-        
         this.updatePreset(paramObj);
         
         newCurrPreset[paramName] = paramValue;
@@ -170,7 +170,7 @@ class Comp extends React.Component {
             };
             // make a POST request -- send newCurrPreset as body
 
-            fetch('/api/user1234/comp', {
+            fetch(this.state.apiURI, {
                 method: 'POST',
                 body: JSON.stringify(newCurrPreset), 
                 headers: {
@@ -202,7 +202,7 @@ class Comp extends React.Component {
 
         if (currPresetId !== '0') {
             // if preset is not default preset
-            const deleteURI = '/api/user1234/comp/' + currPresetId;
+            const deleteURI = this.state.apiURI + '/' + currPresetId;
 
             
             fetch(deleteURI, {
