@@ -7,47 +7,63 @@ const CompPresetSchema = new Schema({
         type: 'String',
         required: [true, 'you must enter a preset name']
     },
-    mode: {
-        type: String,
-        default: 'creative'
-    },
-    attack: {
-        type: Number,
-        default: 20,
-        min: [0.2, 'attack time parameter must be set slower than 0.2ms'],
-        max: [200, 'attack time parameter must be set faster than 200ms']
-    },
-    release: {
-        type: Number,
-        default: 100,
-        min: [5, 'attack time parameter must be set slower than 5ms'],
-        max: [2000, 'attack time parameter must be set faster than 2000ms'],
-        required: true
-    },
-    threshold: {
-        type: Number,
-        default: -18,
-        min: [-60, 'threshold parameter must be set higher than -60 dB'],
-        max: [22, 'threshold parameter must be set lower than 22 dB'],
-        required: true
-    },
-    ratio: {
-        type: Number,
-        default: 2,
-        min: [1, 'ratio parameter must be set higher than 1:1']
-    },
-    presence: {
-        type: Number,
-        default: 0,
-        min: [-10, 'presence parameter must be set higher than -10 dB'],
-        max: [10, 'presence parameter must be set lower than 10 dB']
-    },
-    makeUp: {
-        type: Number,
-        default: 0,
-        min: [-24, 'makeUp parameter must be set higher than -24 dB'],
-        max: [24, 'makeUp parameter must be set lower than 24 dB']
-    }
+    params: [   
+        {
+            mode: {
+                type: String,
+                default: 'creative'
+            }
+        },
+        {
+            attack: {
+                type: Number,
+                default: 20,
+                min: [0.2, 'attack time parameter must be set slower than 0.2ms'],
+                max: [200, 'attack time parameter must be set faster than 200ms']
+            }
+        },
+        {
+            release: {
+                type: Number,
+                default: 100,
+                min: [5, 'attack time parameter must be set slower than 5ms'],
+                max: [2000, 'attack time parameter must be set faster than 2000ms'],
+                required: true
+            }
+        },
+        {
+            threshold: {
+                type: Number,
+                default: -18,
+                min: [-60, 'threshold parameter must be set higher than -60 dB'],
+                max: [22, 'threshold parameter must be set lower than 22 dB'],
+                required: true
+            }
+        },
+        {
+            ratio: {
+                type: Number,
+                default: 2,
+                min: [1, 'ratio parameter must be set higher than 1:1']
+            }
+        },
+        {
+            presence: {
+                type: Number,
+                default: 0,
+                min: [-10, 'presence parameter must be set higher than -10 dB'],
+                max: [10, 'presence parameter must be set lower than 10 dB']
+            }
+        },
+        {
+            makeUp: {
+                type: Number,
+                default: 0,
+                min: [-24, 'makeUp parameter must be set higher than -24 dB'],
+                max: [24, 'makeUp parameter must be set lower than 24 dB']
+            }
+        }
+    ]
 });
 
 
