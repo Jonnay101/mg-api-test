@@ -7,8 +7,6 @@ const { mongoURI } = require('./config/keys');
 // create express app
 const app = express();
 
-
-
 // connect to mongodb
 mongoose.connect(mongoURI);
 mongoose.Promise = global.Promise;

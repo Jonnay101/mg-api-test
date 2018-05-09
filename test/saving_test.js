@@ -1,11 +1,15 @@
 const expect = require('chai').expect;
 const Comp = require('../models/Comp');
-const EQ = require('../models/EQ');
+const Eq = require('../models/EQ');
+const Val = require('../presetValidation');
+
+console.log(Val.defaultCompParams, Val.defaultEqParams);
+
 
 describe('saving compressor records', function () {
 
     it ('should be invalid without a presetName', function(done) {
-        var comp = new Comp()
+        var comp = new Comp();
 
         comp.validate(function(err) {
             expect(err.errors.presetName).to.exist;
@@ -13,230 +17,152 @@ describe('saving compressor records', function () {
         })
     });
 
-    it ('should create a preset with default values if the presetNmae is given', function(done) {
+    it ('should create a preset with with the given values', function(done) {
 
-        var comp = new Comp({presetName: 'dave'});
+        var comp = new Comp(Val.validatePreset(Val.comp1, Val.defaultCompParams));
 
-        comp.validate(function(err) {
+        comp.validate(function(err) {   
             
-            expect(comp.mode).to.equal('creative');
-            expect(comp.attack).to.equal(20);
-            expect(comp.release).to.equal(100);
-            expect(comp.threshold).to.equal(-18);
-            expect(comp.ratio).to.equal(2);            
-            expect(comp.presence).to.equal(0);
-            expect(comp.makeUp).to.equal(0);
+            expect(comp.params).to.be.an.instanceof(Array);
+            expect(comp.params[0].mode).to.equal('creative');
+            expect(comp.params[1].attack).to.equal(41);
+            expect(comp.params[2].release).to.equal(358);
+            expect(comp.params[3].threshold).to.equal(-38);
+            expect(comp.params[4].ratio).to.equal(4);            
+            expect(comp.params[5].presence).to.equal(4);
+            expect(comp.params[6].makeUp).to.equal(3.4);
             done();
-        })
+        });
+            
     });
 
-    it ('should be invalid if values lower than the min settings are given', function (done) {
-        var comp = new Comp({
-            presetName: 'dave',
-            attack: 0.1,
-            release: 4,
-            threshold: -62,
-            ratio: 0.9,
-            presence: -11,
-            makeUp: -25
-        });
+    it ('should create a preset (populate default values) when only the presetName is given', function(done) {
 
-        comp.validate(function(err) {
+        var comp = new Comp(Val.validatePreset(Val.comp3, Val.defaultCompParams));
+
+        comp.validate(function(err) {            
             
-            expect(err.errors.attack).to.exist;
-            expect(err.errors.release).to.exist;
-            expect(err.errors.threshold).to.exist;
-            expect(err.errors.ratio).to.exist;
-            expect(err.errors.presence).to.exist;
-            expect(err.errors.makeUp).to.exist;
+            expect(comp.params).to.be.an.instanceof(Array);
+            expect(comp.params[0].mode).to.equal('creative');
+            expect(comp.params[1].attack).to.equal(10);
+            expect(comp.params[2].release).to.equal(100);
+            expect(comp.params[3].threshold).to.equal(-18);
+            expect(comp.params[4].ratio).to.equal(4);            
+            expect(comp.params[5].presence).to.equal(0);
+            expect(comp.params[6].makeUp).to.equal(0);
             done();
-        })
+        });
+            
     });
 
-    it ('should be invalid if values greater than the max settings are given', function (done) {
-        var comp = new Comp({
-            presetName: 'dave',
-            attack: 201,
-            release: 5001,
-            threshold: 23,
-            presence: 11,
-            makeUp: 25
-        });
+    it ('should create a preset when the presetName and an empty array are given ', function(done) {
 
-        comp.validate(function(err) {
+        var comp = new Comp(Val.validatePreset(Val.comp2, Val.defaultCompParams));
+
+        comp.validate(function(err) {            
             
-            expect(err.errors.attack).to.exist;
-            expect(err.errors.release).to.exist;
-            expect(err.errors.threshold).to.exist;
-            expect(err.errors.presence).to.exist;
-            expect(err.errors.makeUp).to.exist;
+            expect(comp.params).to.be.an.instanceof(Array);
+            expect(comp.params[0].mode).to.equal('creative');
+            expect(comp.params[1].attack).to.equal(10);
+            expect(comp.params[2].release).to.equal(100);
+            expect(comp.params[3].threshold).to.equal(-18);
+            expect(comp.params[4].ratio).to.equal(4);            
+            expect(comp.params[5].presence).to.equal(0);
+            expect(comp.params[6].makeUp).to.equal(0);
             done();
-        })
-    });
-
-    it ('should be invalid if incorrect data types are given', function (done) {
-        var comp = new Comp({
-
-            presetName: 1234,
-            mode: ['crea','tive'],
-            attack: '201',
-            release: [5001],
-            threshold: {teo:23},
-            ratio: '2:1',
-            presence: 'eleven',
-            makeUp: [25]
         });
-
-        comp.validate(function(err) {
             
-            expect(err.errors.attack).to.exist;
-            expect(err.errors.release).to.exist;
-            expect(err.errors.threshold).to.exist;
-            expect(err.errors.presence).to.exist;
-            expect(err.errors.makeUp).to.exist;
-            done();
-        })
     });
 });
 
-describe('saving EQ records', function () {
+describe('saving eq records', function () {
 
     it ('should be invalid without a presetName', function(done) {
-        var eq = new EQ()
+        var eq = new Eq();
 
         eq.validate(function(err) {
             expect(err.errors.presetName).to.exist;
-            //expect(eq.loBand).to.not.exist; ----- problem
             done();
         })
     });
 
-    it ('should create a preset with default values if the presetNmae is given', function(done) {
+    it ('should create a preset with with the given values', function(done) {
 
-        var eq = new EQ({presetName: 'default eq'});
+        var eq = new Eq(Val.validatePreset(Val.eq1, Val.defaultEqParams));
 
-        eq.validate(function(err) {
+        eq.validate(function(err) {   
             
-            expect(eq.loBand).to.equal(true);
-
-            expect(eq.loShelf).to.equal(true);
-            expect(eq.loFreq).to.equal(80);
-            expect(eq.loGain).to.equal(0);
-            expect(eq.loMidBand).to.equal(true);            
-            expect(eq.loMidHiQ).to.equal(false);
-            expect(eq.loMidFreq).to.equal(290);
-            expect(eq.loMidGain).to.equal(0);
-            expect(eq.hiMidBand).to.equal(true); 
-            expect(eq.hiMidFreq).to.equal(2.4);
-            expect(eq.hiMidGain).to.equal(0);
-            expect(eq.hiBand).to.equal(true); 
-            expect(eq.hiFreq).to.equal(7);
-            expect(eq.hiShelf).to.equal(true);
-            expect(eq.hiGain).to.equal(0);
+            expect(eq.params).to.be.an.instanceof(Array);
+            expect(eq.params[0].hiBand).to.equal(false);
+            expect(eq.params[1].hiShelf).to.equal(false);
+            expect(eq.params[2].hiFreq).to.equal(4);
+            expect(eq.params[3].hiGain).to.equal(6);
+            expect(eq.params[4].hiMidBand).to.equal(true);
+            expect(eq.params[5].hiMidFreq).to.equal(2.1);
+            expect(eq.params[6].hiMidGain).to.equal(2);
+            expect(eq.params[7].loMidBand).to.equal(true);
+            expect(eq.params[8].loMidHiQ).to.equal(false);
+            expect(eq.params[9].loMidFreq).to.equal(350);
+            expect(eq.params[10].loMidGain).to.equal(-2);
+            expect(eq.params[11].loBand).to.equal(true);
+            expect(eq.params[12].loShelf).to.equal(true);
+            expect(eq.params[13].loFreq).to.equal(130);
+            expect(eq.params[14].loGain).to.equal(-4);
             done();
-        })
+        });            
     });
 
-    it ('should be invalid if values lower than the min settings are given', function (done) {
-        var eq = new EQ({
-            presetName: 'default eq',
-            loBand: true,
-            loShelf: 'shelf',
-            loFreq: -1,
-            loGain: -25,
-            loMidBand: true,
-            loMidHiQ: false,
-            loMidFreq: -1,
-            loMidGain: -25,
-            hiMidBand: true,
-            hiMidFreq: -0.1,
-            hiMidGain: -25,
-            hiBand: true,
-            hiFreq: -0.1,
-            hiGain: -25
+    it ('should create a preset (populate default values) when only the presetName is given', function(done) {
+
+        var eq = new Eq(Val.validatePreset(Val.eq3, Val.defaultEqParams));
+
+        eq.validate(function(err) {   
+
+            expect(eq.params).to.be.an.instanceof(Array);
+            expect(eq.params[0].hiBand).to.equal(true);
+            expect(eq.params[1].hiShelf).to.equal(true);
+            expect(eq.params[2].hiFreq).to.equal(7);
+            expect(eq.params[3].hiGain).to.equal(0);
+            expect(eq.params[4].hiMidBand).to.equal(true);
+            expect(eq.params[5].hiMidFreq).to.equal(2.4);
+            expect(eq.params[6].hiMidGain).to.equal(0);
+            expect(eq.params[7].loMidBand).to.equal(true);
+            expect(eq.params[8].loMidHiQ).to.equal(true);
+            expect(eq.params[9].loMidFreq).to.equal(290);
+            expect(eq.params[10].loMidGain).to.equal(0);
+            expect(eq.params[11].loBand).to.equal(true);
+            expect(eq.params[12].loShelf).to.equal(true);
+            expect(eq.params[13].loFreq).to.equal(80);
+            expect(eq.params[14].loGain).to.equal(0);
+            done();
         });
-
-        eq.validate(function(err) {
             
-            
-            expect(err.errors.loFreq).to.exist;
-            expect(err.errors.loGain).to.exist;
-            expect(err.errors.loMidFreq).to.exist;
-            expect(err.errors.loMidGain).to.exist;
-            expect(err.errors.hiMidFreq).to.exist;
-            expect(err.errors.hiMidGain).to.exist;
-            expect(err.errors.hiFreq).to.exist;
-            expect(err.errors.hiGain).to.exist;
-            done();
-        })
     });
 
-    it ('should be invalid if values greater than the max settings are given', function (done) {
-        var eq = new EQ({
-            presetName: 'default eq',
-            loBand: true,
-            loShelf: 'shelf',
-            loFreq: 48001,
-            loGain: 25,
-            loMidBand: true,
-            loMidHiQ: false,
-            loMidFreq: 48001,
-            loMidGain: 25,
-            hiMidBand: true,
-            hiMidFreq: 48.1,
-            hiMidGain: 25,
-            hiBand: true,
-            hiFreq: 48.1,
-            hiGain: 25
+    it ('should create a preset when the presetName and an empty array are given ', function(done) {
+
+        var eq = new Eq(Val.validatePreset(Val.eq2, Val.defaultEqParams));
+
+        eq.validate(function(err) {   
+
+            expect(eq.params).to.be.an.instanceof(Array);
+            expect(eq.params[0].hiBand).to.equal(true);
+            expect(eq.params[1].hiShelf).to.equal(true);
+            expect(eq.params[2].hiFreq).to.equal(7);
+            expect(eq.params[3].hiGain).to.equal(0);
+            expect(eq.params[4].hiMidBand).to.equal(true);
+            expect(eq.params[5].hiMidFreq).to.equal(2.4);
+            expect(eq.params[6].hiMidGain).to.equal(0);
+            expect(eq.params[7].loMidBand).to.equal(true);
+            expect(eq.params[8].loMidHiQ).to.equal(true);
+            expect(eq.params[9].loMidFreq).to.equal(290);
+            expect(eq.params[10].loMidGain).to.equal(0);
+            expect(eq.params[11].loBand).to.equal(true);
+            expect(eq.params[12].loShelf).to.equal(true);
+            expect(eq.params[13].loFreq).to.equal(80);
+            expect(eq.params[14].loGain).to.equal(0);
+            done();
         });
-
-        eq.validate(function(err) {
             
-            
-            expect(err.errors.loFreq).to.exist;
-            expect(err.errors.loGain).to.exist;
-            expect(err.errors.loMidFreq).to.exist;
-            expect(err.errors.loMidGain).to.exist;
-            expect(err.errors.hiMidFreq).to.exist;
-            expect(err.errors.hiMidGain).to.exist;
-            expect(err.errors.hiFreq).to.exist;
-            expect(err.errors.hiGain).to.exist;
-            done();
-        })
     });
-
-    it ('should be invalid if the wrong data types are given', function (done) {
-        var eq = new EQ({
-            presetName: ['default eq'],
-            loBand: 14,
-            loShelf: {it:'shelf'},
-            loFreq: '48001',
-            loGain: [25],
-            loMidBand: 1,
-            loMidHiQ: [1],
-            loMidFreq: '48001',
-            loMidGain: '25',
-            hiMidBand: '',
-            hiMidFreq: [48.1],
-            hiMidGain: "25",
-            hiBand: 12,
-            hiFreq: "48.1",
-            hiGain: {yep:25},
-            hiShelf: 'blue'
-        });
-
-        eq.validate(function(err) {
-
-            expect(err.errors.loFreq).to.exist;
-            expect(err.errors.loGain).to.exist;
-            expect(err.errors.loMidHiQ).to.exist;
-            expect(err.errors.loMidFreq).to.exist;
-            expect(err.errors.loMidGain).to.exist;
-            expect(err.errors.hiMidFreq).to.exist;
-            expect(err.errors.hiMidGain).to.exist;
-            expect(err.errors.hiFreq).to.exist;
-            expect(err.errors.hiGain).to.exist;
-            done();
-        })
-    });
-})
+});

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Comp = require('../models/Comp');
 const EQ =  require('../models/EQ');
+const Val = require('../presetValidation');
 
 // get all presets
 router.get('/user1234/:fx', function (req, res, next) {
@@ -42,11 +43,15 @@ router.post('/user1234/:fx', (req, res, next) => {
 
     if (fx === 'comp') {
 
-        Comp.create(req.body).then(comp => res.send(comp)).catch(next);
+        const postComp = Val.validatePreset(req.body, Val.defaultCompParams);
+
+        Comp.create(postComp).then(comp => res.send(comp)).catch(next);
 
     } else if (fx === 'eq') {
 
-        EQ.create(req.body).then(eq => res.send(eq)).catch(next);
+        const postEq = Val.validatePreset(req.body, Val.defaultEqParams);
+
+        EQ.create(postEq).then(eq => res.send(eq)).catch(next);
 
     }
 });
