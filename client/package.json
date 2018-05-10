@@ -2,21 +2,21 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-   "proxy": {
-    "/api":{
-      "target": "http://localhost:5000"
+  "proxy": {
+    "/api": {
+      "target": "http://localhost:4000"
     },
-    "/api/user1234":{
-      "target": "http://localhost:5000"
+    "/api/user1234": {
+      "target": "http://localhost:4000"
     },
-    "/api/user1234/comp":{
-      "target": "http://localhost:5000"
+    "/api/user1234/comp": {
+      "target": "http://localhost:4000"
     },
-    "/api/user1234/eq":{
-      "target": "http://localhost:5000"
+    "/api/user1234/eq": {
+      "target": "http://localhost:4000"
     },
-    "/api/user1234/eq/:id":{
-      "target": "http://localhost:5000"
+    "/api/user1234/eq/:id": {
+      "target": "http://localhost:4000"
     }
   },
   "dependencies": {
@@ -24,7 +24,6 @@
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-redux": "^5.0.7",
-    "react-rotary-knob": "^1.1.1",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.4",
     "react-transform-catch-errors": "^1.0.2",
@@ -35,5 +34,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1"
   }
 }
