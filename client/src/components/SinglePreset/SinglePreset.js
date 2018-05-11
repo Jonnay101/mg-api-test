@@ -1,72 +1,51 @@
 import React, { Component } from 'react';
+import FXParam from '../FXParam/FXParam';
 import PropTypes from 'prop-types';
-//import FXParam from './FXParam';
 
 require('./SinglePreset.css');
 
-class SinglePreset extends React.Component {
+class SinglePreset extends Component {
     constructor (props) {
         super(props)
-        this.handleParamChange = this.handleParamChange.bind(this)
+        this.handleParamChange = this.handleParamChange.bind(this);
     }
 
     static defaultProps = {
-        onParamChange: () => {},
-        preset: {
-            params: [],
-            presetName: ''
-        },
-        info: {
-            defaultPreset: {},
-            fxType: ''
-        },
+        onParamChange: ()=>{},
+        preset: {},
+        info: {}
     }
 
-    handleParamChange (obj) {
-        const { onParamChange } = this.props;
-        this.props.onParamChange(obj)
+    handleParamChange (paramObj) {
+        this.props.onParamChange(paramObj);
     }
 
-    render(){
-        // render vars
-        const { preset, info } = this.props;
-        const { fxType } = info;
+    render () {
+        const { preset } = this.props;
         const { params } = preset;
-        let paramArr;
+        const presetId = preset._id || '0';
 
-        // console.log(preset.params);
-        // if (params) {
-        //     paramArr = params.map((param, index) => {
-        //         <li key={index}>{param}</li>
-        //     });
-        // } else {
-        //     info.defaultPreset.params.map((param, index) => {
-        //         <li key={index}>{param[0]}</li>
-        //     });
-        // }     
-
-        // main output
-        return (
-            <div className="single-preset">        
-                <h4>preset: <span className="chosen-preset">{preset.presetName}</span></h4>                   
-                {/* <FXParam 
-                    onParamChange={this.handleParamChange} 
-                    paramName="hiBand" 
-                    param={preset.hiBand} 
-                    presetId={preset._id}
-                    paramUnit = "On"
-                    fxType = {fxType}
-                />                     */}
-                <ul>{paramArr}</ul>
-            </div>
-        )              
+        if (params) {
+            return (
+                <div className="single-preset-body">
+                    {params.map((param, index) => {                        
+                        return <FXParam key={index + presetId} presetId={presetId} param={ param } onParamChange={this.handleParamChange}/>
+                    })}
+                </div>
+            )
+        } else {
+            return (
+                <div>Loading...</div>
+            )
+        }
+        
     }
 }
 
 SinglePreset.PropTypes = {
-    onParamChange:PropTypes.func.isRequired,
-    preset: PropTypes.object.isRequired
+    onParamChange: PropTypes.func.isRequired,
+    preset: PropTypes.object.isRequired,
+    info: PropTypes.object.isRequired
 }
 
 export default SinglePreset;
-  

@@ -12,12 +12,12 @@ const compInfo = {
         presetName: 'default comp',
         params: [
             {mode:"creative"},
-            {attack:"10"},
-            {release:"100"},
-            {threshold:"-18"},
-            {ratio:"4"},
-            {presence:"0"},
-            {makeUp:"0"},
+            {attack:10},
+            {release:100},
+            {threshold:-18},
+            {ratio:4},
+            {presence:0},
+            {makeUp:0},
         ]
     }
 }

@@ -45,13 +45,20 @@ class FX extends Component {
     }
 
     handleParamChange (paramObj) {
-        console.log(paramObj);
+        const { currPreset } = this.state;
+        const currParams = currPreset.params;
+        const { paramName, paramValue, presetId } = paramObj;
+        const newParams = [...currParams];
+
+        // params now need an id source saving too. they should come back as a tuple with the index and id seperate;
+        
     }
 
     render () {
         // render vars
-        const { info, fxType } = this.props;
+        const { info } = this.props;
         const { currPreset, error, presetNamesId } = this.state;
+        const fxBodyTag = info.fxType + '-fx-body fx-body';
 
         // error reporting
         if (error) {
@@ -61,7 +68,7 @@ class FX extends Component {
         //main output
         return (
             
-            <div>
+            <div className={fxBodyTag}>
                 <h1 style={{color: 'white'}}>{info.fxType}</h1>
                 <PresetList presetNamesId={presetNamesId} onPresetChoice={this.handlePresetChoice}/>
                 <SinglePreset preset={currPreset} info={info} onParamChange={this.handleParamChange} />

@@ -54,5 +54,12 @@ export default {
         } else {
             throw new Error('this function requires an array as the first arg');
         }
+    },
+    getKeyFromTuple : function (object) {
+        if (typeof object === 'object') {
+            return Object.keys(object)[0];
+        } else {
+            throw new Error('getKeyAndValueFromTuple requires an object as its only arg');
+        }
     }
 }
