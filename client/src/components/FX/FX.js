@@ -29,6 +29,7 @@ class FX extends Component {
         this.handleDelete = this.handleDelete.bind(this);
         this.handleDbUpdate = Debounce.debounce(this.handleDbUpdate, 250).bind(this);
         this.handleAutoSave = this.handleAutoSave.bind(this);
+        this.handleNewPreset = this.handleNewPreset.bind(this);
     }
 
     static defaultProps = {
@@ -153,6 +154,11 @@ class FX extends Component {
         }
     }
 
+    handleNewPreset () {
+        this.setState({currPreset: this.props.defaultPreset});
+        this.handleSaveAs ();
+    }
+
     render () {
         // render vars
         const { info } = this.props;
@@ -178,6 +184,7 @@ class FX extends Component {
             <div className={fxBodyTag}>
                 <div className="button-bar">
                     <div className="button-container">
+                        <button className="new-preset-btn btn" onClick={this.handleNewPreset}>New Preset</button>
                         <button className="save-as-btn btn" onClick={this.handleSaveAs}>Save As</button>
                         {/* <button className="new-preset-btn btn" onClick={this.handleNewPreset}>Save As</button> */}
                         {whenDeleteButton()}

@@ -30,6 +30,7 @@ class SinglePreset extends Component {
         if (params) {
             return (
                 <div className="single-preset-body">
+                    <h3 className="current-preset-header">Current Preset: {preset.presetName}</h3>
                     {params.map((param, index) => {                        
                         return <FXParam key={index + presetId} presetId={presetId} param={ param } onParamChange={this.handleParamChange}/>
                     })}
