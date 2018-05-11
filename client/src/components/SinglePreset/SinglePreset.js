@@ -25,6 +25,8 @@ class SinglePreset extends Component {
         const { params } = preset;
         const presetId = preset._id || '0';
 
+        //console.log(preset)
+
         if (params) {
             return (
                 <div className="single-preset-body">
@@ -35,7 +37,7 @@ class SinglePreset extends Component {
             )
         } else {
             return (
-                <div>Loading...</div>
+                <div>Loading...(params not reloading with page)</div>
             )
         }
         

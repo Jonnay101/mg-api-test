@@ -8,22 +8,25 @@ class SwitchParam extends React.Component {
     }
 
     static defaultProps = {
-        param: ''
+        paramName: '',
+        paramValue: 0,
+        presetId: '0'
     }
 
     handleInputChange (e) {
         const target = e.target;
-        const {paramName, onParamChange} = this.props
-        const paramChangeInfo = {
-            presetId: target.name,
-            paramValue: target.value,
-            paramName
+        const paramValue = target.value;
+        const { paramName, onParamChange } = this.props
+        const paramObj = {
+            paramTuple: {[paramName]: paramValue},
+            presetId: target.name
         }
-        onParamChange(paramChangeInfo);
+        
+        onParamChange(paramObj);           
     }    
 
     render(){
-        const { paramName, presetId, param } = this.props;
+        const { paramName, paramValue, presetId} = this.props;
 
         return (
             <div className="preset-display">    
@@ -36,7 +39,7 @@ class SwitchParam extends React.Component {
                     className="param-select" 
                     onChange={this.handleInputChange} 
                     name={presetId} 
-                    value={param}
+                    value={paramValue}
                 >
                     <option value="Creative">Creative</option>
                     <option value="Opto">Opto</option>
@@ -52,9 +55,8 @@ class SwitchParam extends React.Component {
 SwitchParam.PropTypes = {
     onParamChange: PropTypes.func.isRequired,
     paramName: PropTypes.string ,
-    param: PropTypes.bool,
-    presetId: PropTypes.string ,
-    paramUnit: PropTypes.string
+    paramValue: PropTypes.bool,
+    presetId: PropTypes.string
 }
 
 export default SwitchParam;

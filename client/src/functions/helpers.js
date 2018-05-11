@@ -61,5 +61,15 @@ export default {
         } else {
             throw new Error('getKeyAndValueFromTuple requires an object as its only arg');
         }
+    },
+    matchObjKeys : function (obj1, obj2) {
+        // takes two objects, compares their first key and return true if they match...
+        if (typeof obj1 === 'object' || typeof obj2 === 'object') {
+            const objKey1 = Object.keys(obj1)[0];
+            const objKey2 = Object.keys(obj2)[0];
+            return objKey1 === objKey2;
+        } else {
+            throw new Error('matchOvjKeys takes 2 objects as args');
+        }
     }
 }

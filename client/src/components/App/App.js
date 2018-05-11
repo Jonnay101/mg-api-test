@@ -30,10 +30,10 @@ const eqInfo = {
         params: [
             {hiBand: true},
             {hiShelf: true},
-            {hiFreq: 7},
+            {hiFreq: 8},
             {hiGain: 0},
             {hiMidBand: true},
-            {hiMidFreq: 2.4},
+            {hiMidFreq: 2},
             {hiMidGain: 0},
             {loMidBand: true},
             {loMidHiQ: true},

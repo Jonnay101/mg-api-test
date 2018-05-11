@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import Helpers from '../../functions/helpers';
 
 import Slider from '../Slider/Slider';
-// import SwitchParam from './SwitchParam';
-// import SelectParam from './SelectParam';
+import Switch from '../Switch/Switch';
+import Select from '../Select/Select';
 
 require('./FXParam.css');
 
@@ -35,8 +35,10 @@ class FXParam extends React.Component {
             return <Slider onParamChange={this.handleParamChange} paramName={paramName} paramValue={paramValue} presetId={presetId}/>
         } else if (typeof paramValue === 'boolean') {
             // return a switch
+            return <Switch onParamChange={this.handleParamChange} paramName={paramName} paramValue={paramValue} presetId={presetId}/>
         } else if (typeof paramValue === 'string') {
-            // return a select            
+            // return a select 
+            return <Select onParamChange={this.handleParamChange} paramName={paramName} paramValue={paramValue} presetId={presetId}/>           
         } else {
             return <p>Sorry, parameter not loading!</p>
         }
@@ -46,12 +48,10 @@ class FXParam extends React.Component {
     }
 }
 
-// SingleParam.PropTypes = {
-//     onParamChange: PropTypes.func.isRequired,
-//     paramName: PropTypes.string ,
-//     param: PropTypes.number,
-//     presetId: PropTypes.string ,
-//     paramUnit: PropTypes.string.isRequired
-// }
+FXParam.PropTypes = {
+    onParamChange: PropTypes.func.isRequired,
+    param: PropTypes.object.isRequired,
+    presetId: PropTypes.string
+}
 
 export default FXParam;

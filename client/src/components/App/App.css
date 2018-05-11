@@ -47,11 +47,13 @@ body {
     font-size: 4rem !important;
     text-decoration: none;
     color: #f07d01;
+    
 }
 
 .page-link:first-of-type {
     transform: rotate(20deg);
     transform-origin: top left;
+    
     z-index: 5;
 }
 
@@ -187,13 +189,15 @@ button.delete-btn {
     text-align: center;
     cursor: pointer;
     box-shadow: 0 5px 10px rgba(0,0,0,0.3);
-    transition: all .3s;
+    transition: all .15s;
+    transition-timing-function: cubic-bezier(.75,.46,.87,1.16);
     background: #fff;
     border: none;
     backface-visibility: hidden;
     font-family: 'Caveat Brush', cursive;
     font-size: 1.2rem;
     border-radius: 3px;
+    outline: none;
 }
 
 .btn:hover,

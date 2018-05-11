@@ -60,6 +60,48 @@ module.exports = {
             .catch(err => {
                 return {error: err}
             })
+    },
+    updatePreset: function (URI, id, putBody) {
+        // takes URI and an id and some data updates the corresponding preset...
+        // returns the updated preset as currPreset tuple.
+        return fetch(URI + '/' + id, {
+            method: 'PUT',
+            body: JSON.stringify(putBody), 
+            headers: {
+                'content-type': 'application/json'
+            }
+        })
+        .then(res => {
+            if (res.ok) {
+                return res.json();
+            } else {
+                throw new Error('POST request failed. Currently unable to save your preset, sorry!');
+            }
+        })
+        .then(data => {
+            return {currPreset: data}
+        })
+        .catch(err => {
+            return {error: err}
+        })
+    },
+    deletePreset: function (URI, id) {
+        // takes URI and a preset id and deletes the corresponding preset. returns the deleted preset as currPreset tuple
+        return fetch(URI + '/' + id, {
+            method: 'DELETE'
+        })
+        .then(res => {
+            if (res.ok) {
+                return res.json();
+            } else {
+                throw new Error('POST request failed. Currently unable to save your preset, sorry!');
+            }
+        })
+        .then(data => {
+            return {userMessage: data.presetName + ' has been deleted'}
+        })
+        .catch(err => {
+            return {error: err}
+        })
     }
-
 }

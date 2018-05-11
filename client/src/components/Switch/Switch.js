@@ -9,20 +9,23 @@ class SwitchParam extends React.Component {
 
     handleInputChange (e) {
         const target = e.target;
+        const paramValue = target.checked
         const {paramName, onParamChange} = this.props
-        const paramChangeInfo = {
-        presetId: target.name,
-        paramValue: target.checked,
-        paramName
+        const paramObj = {
+            presetId: target.name,
+            paramTuple: {[paramName]: paramValue}
         }
-        onParamChange(paramChangeInfo);
+        onParamChange(paramObj);
     }    
 
     render(){
-        const { paramName, presetId, param} = this.props;
+        // render vars
+        const { paramName, paramValue, presetId } = this.props;
+        const paramBodyTag = paramName + '-param-body param-body';
         
+        //main output
         return (
-            <div className="preset-display">    
+            <div className={paramBodyTag}>    
                 <label 
                     className="param-label"
                     htmlFor={presetId}>
@@ -30,10 +33,10 @@ class SwitchParam extends React.Component {
                 </label>    
                 <input 
                     type="checkbox"
-                    className="param-switch" 
+                    className="param-input switch" 
                     onChange={this.handleInputChange} 
                     name={presetId} 
-                    checked={param}
+                    checked={paramValue}
                 />
             </div>
         )
@@ -43,9 +46,8 @@ class SwitchParam extends React.Component {
 SwitchParam.PropTypes = {
     onParamChange: PropTypes.func.isRequired,
     paramName: PropTypes.string ,
-    param: PropTypes.bool,
-    presetId: PropTypes.string ,
-    paramUnit: PropTypes.string
+    paramValue: PropTypes.bool,
+    presetId: PropTypes.string
 }
 
 export default SwitchParam;
