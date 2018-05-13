@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Debounce from '../../functions/debounce';
 import SFunc from '../../functions/stateFunctions';
 import Helpers from '../../functions/helpers';
 import PresetList from '../PresetList/PresetList';
 import SinglePreset from '../SinglePreset/SinglePreset';
 import { log } from 'util';
+import { FETCH_PRESETS } from '../../actions/types';
+import { fetchPresets } from '../../actions/index';
 
 require('./FX.css');
 
@@ -34,19 +37,23 @@ class FX extends Component {
 
     static defaultProps = {
         info: {}
-    }    
-
-    componentDidMount () {
-        // load presets and update state as soon as this component mounts
-        const { info } = this.props;
-        const { presets } = this.state;
-        SFunc.getPresetList(info.requestURI, {currPreset: info.defaultPreset}).then(data => {
-            this.setState({
-                ...data, 
-                presetNamesId: Helpers.getNamesAndIdFromPresets(data.presets || presets)
-            });
-        });
+    } 
+    
+    componentWillMount () {
+        fetchPresets (this.props.info.requestURI);git 
     }
+
+    // componentDidMount () {
+    //     // load presets and update state as soon as this component mounts
+    //     const { info } = this.props;
+    //     const { presets } = this.state;
+    //     SFunc.getPresetList(info.requestURI, {currPreset: info.defaultPreset}).then(data => {
+    //         this.setState({
+    //             ...data, 
+    //             presetNamesId: Helpers.getNamesAndIdFromPresets(data.presets || presets)
+    //         });
+    //     });
+    // }
 
     handlePresetChoice (presetId) {
         // recieves a preset Id from the presetList component and sets the currPreset according to this id
@@ -209,4 +216,4 @@ FX.PropTypes = {
     info: PropTypes.object.isRequired
 }
 
-export default FX
+export default connect(null, fetchPosts)(Posts);
