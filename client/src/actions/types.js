@@ -1,0 +1,2 @@
+export const FETCH_PRESETS = 'FETCH_PRESETS';
+export const SET_PRESET_NAME_ID = 'SET_PRESET_NAME_ID'

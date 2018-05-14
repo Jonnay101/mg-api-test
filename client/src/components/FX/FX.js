@@ -7,8 +7,7 @@ import Helpers from '../../functions/helpers';
 import PresetList from '../PresetList/PresetList';
 import SinglePreset from '../SinglePreset/SinglePreset';
 import { log } from 'util';
-import { FETCH_PRESETS } from '../../actions/types';
-import { fetchPresets } from '../../actions/index';
+import { fetchPresets, setPresetNamesId } from '../../actions/index';
 
 require('./FX.css');
 
@@ -39,8 +38,9 @@ class FX extends Component {
         info: {}
     } 
     
-    componentWillMount () {
-        fetchPresets (this.props.info.requestURI);git 
+    componentDidMount () {
+        fetchPresets(null, this.props);
+        setPresetNamesId('yo');
     }
 
     // componentDidMount () {
@@ -58,7 +58,7 @@ class FX extends Component {
     handlePresetChoice (presetId) {
         // recieves a preset Id from the presetList component and sets the currPreset according to this id
         const { info } = this.props;
-        const { presets } = this.state;
+        const { presets } = this.props;
         var currPresetObj = Helpers.setPresetById(presetId, presets) || {currPreset: info.defaultPreset};
         this.setState({
             ...currPresetObj,
@@ -216,4 +216,8 @@ FX.PropTypes = {
     info: PropTypes.object.isRequired
 }
 
-export default connect(null, fetchPosts)(Posts);
+const mapStateToProps = state => ({
+    presets: state.requests.presets
+})
+
+export default connect(mapStateToProps, fetchPresets)(FX);
