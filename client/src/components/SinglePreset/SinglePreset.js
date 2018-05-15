@@ -1,54 +1,78 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
 import FXParam from '../FXParam/FXParam';
 import PropTypes from 'prop-types';
+
+import { selectPreset, setDefaultInUse } from '../../actions/index';
 
 require('./SinglePreset.css');
 
 class SinglePreset extends Component {
-    constructor (props) {
-        super(props)
-        this.handleParamChange = this.handleParamChange.bind(this);
-    }
 
     static defaultProps = {
-        onParamChange: ()=>{},
         preset: {},
         info: {}
-    }
+    };
 
-    handleParamChange (paramObj) {
-        this.props.onParamChange(paramObj);
-    }
+    componentDidMount() {
+        const { selectPreset, setDefaultInUse, info } = this.props;
+        selectPreset(info.defaultPreset);
+        setDefaultInUse();
+    };
 
     render () {
-        const { preset } = this.props;
+        const { preset, info, hasErrored, isLoading } = this.props;
         const { params } = preset;
         const presetId = preset._id || '0';
-
-        //console.log(preset)
 
         if (params) {
             return (
                 <div className="single-preset-body">
                     <h3 className="current-preset-header">Current Preset: {preset.presetName}</h3>
                     {params.map((param, index) => {                        
-                        return <FXParam key={index + presetId} presetId={presetId} param={ param } onParamChange={this.handleParamChange}/>
+                        return (
+                            <FXParam 
+                                key={index + presetId} 
+                                presetId={presetId} 
+                                param={ param }
+                                info={info}
+                            />
+                        );
                     })}
                 </div>
             )
-        } else {
+        } else if (hasErrored) {
             return (
-                <div>Loading...(params not reloading with page)</div>
-            )
-        }
-        
-    }
-}
+                <div>There's Been an error... {hasErrored}</div>
+            );
+        } else {
+            return <div>Loading...</div>
+        }     
+    };
+};
 
 SinglePreset.PropTypes = {
-    onParamChange: PropTypes.func.isRequired,
     preset: PropTypes.object.isRequired,
-    info: PropTypes.object.isRequired
+    info: PropTypes.object.isRequired,
+    hasErrored: PropTypes.object,
+    isLoading: PropTypes.bool
 }
 
-export default SinglePreset;
+const mapStateToProps = state => {
+    return {
+        preset: state.currPreset,
+        hasErrored: state.hasErrored,
+        isLoading: state.isLoading
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return bindActionCreators({
+        selectPreset: selectPreset,
+        setDefaultInUse: setDefaultInUse
+    }, dispatch)
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SinglePreset);

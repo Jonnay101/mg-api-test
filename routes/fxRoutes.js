@@ -60,23 +60,16 @@ router.post('/user1234/:fx', (req, res, next) => {
 router.put('/user1234/:fx/:id', (req, res, next) => {
     // update fx presets depending on :fx and :id
     var { fx, id } = req.params;
+    const tupleKey = Object.keys(req.body)[0];
+    const query = {_id: id, params: {$elemMatch: { [tupleKey] : {$exists: true}}}};
 
     if (fx === 'comp') {
 
-        Comp.findByIdAndUpdate({_id: id}, req.body, {new: true, setDefaultsOnInsert: true} ).then((compPreset) => {
-
-            res.send(compPreset);
-
-        }).catch(next);
-
+        findAndUpdateParam(Comp, query, req, res, next);
 
     } else if (fx === 'eq') {
 
-        EQ.findByIdAndUpdate({_id: id}, req.body, {new: true, setDefaultsOnInsert: true}).then((eqPreset) => {
-
-            res.send(eqPreset);
-
-        }).catch(next);
+        findAndUpdateParam(EQ, query, req, res, next);
     }
 });
 
@@ -87,25 +80,28 @@ router.delete('/user1234/:fx/:id', (req, res, next) => {
 
     if (fx === 'comp') {
 
-        Comp.findByIdAndRemove({_id: id}).then((compPreset) => {
-
-            res.send(compPreset);
-
-        }).catch(next);
-
+        Comp.findByIdAndRemove({_id: id}).then((compPreset) => res.send(compPreset)).catch(next);
 
     } else if (fx === 'eq') {
 
-        EQ.findByIdAndRemove({_id: id}).then((eqPreset) => {
-
-            res.send(eqPreset);
-            
-        }).catch(next);
+        EQ.findByIdAndRemove({_id: id}).then((eqPreset) => res.send(eqPreset)).catch(next);
     }
 });
 
+//============= Route Helpers ==================
 
-
-
+function findAndUpdateParam(model, query, req, res, next) {
+    model.findOneAndUpdate(
+        query,
+        {
+            $set: {
+                ["params.$"] : req.body
+            }
+        },
+        {new: true}
+    )
+    .then(preset => res.send(preset))
+    .catch(next);
+}
 
 module.exports = router;

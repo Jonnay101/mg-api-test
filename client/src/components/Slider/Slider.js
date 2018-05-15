@@ -37,7 +37,7 @@ class Slider extends Component {
             // return db as unit
             paramUnit = 'dB';
             if (paramName.indexOf('thresh') >= 0) {
-                min = -60;
+                min = -50;
                 max = 0;
             } else {
                 min = -24;
@@ -47,8 +47,8 @@ class Slider extends Component {
             // return db as unit
             paramUnit = 'ms';
             if (paramName.indexOf('atta') >= 0) {
-                min = 1;
-                max = 60;
+                min = 0;
+                max = 30;
             } else {
                 min = 50;
                 max = 300;
@@ -56,7 +56,7 @@ class Slider extends Component {
         } else if (paramName.indexOf('Freq') >= 0 ) {
             if (paramName.indexOf('hi') >= 0 ) {
                 paramUnit = 'kHz';
-                min = 1;
+                min = 2;
                 max = 22;
             } else {
                 paramUnit = 'Hz';
@@ -65,7 +65,7 @@ class Slider extends Component {
             }
         } else if (paramName.indexOf('ratio') >= 0 ) {
             paramUnit = ':1';
-            min = 1;
+            min = 2;
             max = 20;
         }
         
