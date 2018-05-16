@@ -71,5 +71,23 @@ export default {
         } else {
             throw new Error('matchOvjKeys takes 2 objects as args');
         }
+    },
+    splitNames : function (name = 'Loading') {
+        // takes a camel case name and splits it at every capital 
+        // returning a lowercase string with spaces
+        const nameArray = name.split(/(?=[A-Z])/);
+        if (nameArray) {
+            return nameArray.reduce((acc, word, index, arr) => {
+                
+                if (index === 0) {
+                    return acc + word.toLowerCase();
+                } else if (index < arr.length) {
+                    return acc + ' ' + word.toLowerCase();
+                }
+            },'')
+        } else {
+            return name;
+        }
+        
     }
 }

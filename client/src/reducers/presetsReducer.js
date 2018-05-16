@@ -25,7 +25,6 @@ export default function (state = initState, action) {
             })
             const newState = [...state];
             newState[index] = action.payload;
-            break
         default: 
             return state;
     };

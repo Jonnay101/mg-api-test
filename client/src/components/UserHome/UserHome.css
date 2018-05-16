@@ -1,0 +1,42 @@
+.user-home-page {
+    max-width: 600px;
+    min-width: 480px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 40px 20px;
+    height: 60vh;
+    position: relative;
+}
+
+.choose-proc {
+    margin-top: 10px;
+    color: #777;
+}
+
+.page-nav {
+    position: absolute;
+    padding: 40px 0;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.page-link {
+    position: relative;
+    font-size: 4rem !important;
+    text-decoration: none;
+    color: #f07d01;
+    
+}
+
+.page-link:first-of-type {
+    transform: rotate(20deg);
+    transform-origin: top left;
+    
+    z-index: 5;
+}
+
+.page-link:last-of-type {
+    transform: skew(-2deg) rotate(5deg);
+    transform-origin: top left;
+}

@@ -1,3 +1,112 @@
 .fx-param-body {
     color: #fff!important;
 }
+
+
+/* single param */
+.param-input {
+    display: block;
+}
+
+.param-switch {
+    display: inline-block;
+    width: 60px;
+    margin:  5px 0;
+}
+
+.param-input:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+.param-select {
+    float: right;
+    width: 120px;
+    font-family: 'Caveat Brush', cursive;
+    font-family: 1.1rem;
+}
+
+.param-label {
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+}
+
+.param-display {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+input[type="checkbox"] {
+    position: relative;
+    display: block;
+    appearance: none;
+    height: 10px;
+    width: 40px;
+    background: #333;
+    border-radius: 30px;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.4);
+    transition: all .3s;
+    outline: none;
+}
+
+input:checked {
+    background: #f07d01;
+}
+
+input[type="checkbox"]:before {
+    content: 'Off';
+    font-size: .7rem;
+    text-align: center;
+    line-height: 20px;
+    position: absolute;
+    top: -5px;
+    left: -3px;
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+    transition: all .3s;
+}
+
+input:checked:before {
+    content: 'On';
+    left: 22px;
+}
+
+.slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%; 
+    height: 5px;
+    background: #ddd;
+    outline: none; 
+    opacity: 0.7; 
+    -webkit-transition: .2s; 
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 1; 
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none; 
+    appearance: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+    transition: all .2s;
+    cursor: pointer; 
+}
+
+.slider::-moz-range-thumb {    
+    height: 20px;
+    width: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+    cursor: pointer; /* Cursor on hover */
+}

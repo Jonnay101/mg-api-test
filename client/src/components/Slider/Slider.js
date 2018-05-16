@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Helpers from '../../functions/helpers';
 
 class Slider extends Component {
     constructor (props) {
@@ -74,7 +75,7 @@ class Slider extends Component {
                 <label 
                     className="param-label"
                     htmlFor={presetId}>
-                    {paramName}
+                    {Helpers.splitNames(paramName)}
                 </label>     
                 <input 
                     type="range"

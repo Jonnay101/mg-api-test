@@ -1,11 +1,16 @@
 .preset-list {
+    display: flex;
+    flex-direction: column;
     margin: 0;
-    padding: 0;
+    padding: 20px 20px 20px 0;
     list-style: none;
+    flex: 2;
+    max-width: 40%;
 }
 
 .preset-list-item {
-
+    width: 100%;
+    display: inline-block;
 }
 
 .preset-list-item:not(:last-child) {

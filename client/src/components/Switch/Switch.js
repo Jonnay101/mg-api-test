@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Helpers from '../../functions/helpers';
 
 class SwitchParam extends React.Component {
     constructor (props) {
@@ -29,7 +30,7 @@ class SwitchParam extends React.Component {
                 <label 
                     className="param-label"
                     htmlFor={presetId}>
-                    {paramName}
+                    {Helpers.splitNames(paramName)}
                 </label>    
                 <input 
                     type="checkbox"

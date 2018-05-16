@@ -1,0 +1,20 @@
+.button-bar {
+    display: flex;
+    justify-content: space-between;
+}
+
+.auto-save-container {
+    width: 180px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+button.new-preset-btn {
+    background: #333;
+    color: #fff;
+}
+
+button.delete-btn {
+    background: rgb(133, 1, 1);
+}

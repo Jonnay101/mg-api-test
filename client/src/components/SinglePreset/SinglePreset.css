@@ -1,3 +1,42 @@
 .single-preset-body {
+    display: flex;
+    flex-direction: column;
     color: #fff;
+    flex: 3;
+    margin-left: 20px;
+    padding: 20px 20px;
+    border-left: 1px solid #ccc;
+}
+
+.current-preset-header {
+
+}
+
+.current-preset-name {
+    color: #ff0;
+}
+
+.is-loading {
+    text-align: center;
+    animation: loading 2s infinite ease-in-out;
+}
+
+.has-errored {
+    color: red;
+    background: #333;
+    padding: 20px;
+    text-align: center;
+    min-width: 50%;
+}
+
+@keyframes loading {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
 }

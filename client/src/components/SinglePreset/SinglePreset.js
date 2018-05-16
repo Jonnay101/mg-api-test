@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import FXParam from '../FXParam/FXParam';
 import PropTypes from 'prop-types';
 
-import { selectPreset, setDefaultInUse } from '../../actions/index';
+import { selectPreset, setDefaultInUse} from '../../actions/index';
 
 require('./SinglePreset.css');
 
@@ -17,6 +17,7 @@ class SinglePreset extends Component {
     };
 
     componentDidMount() {
+        console.log(this.props.hasErrored);
         const { selectPreset, setDefaultInUse, info } = this.props;
         selectPreset(info.defaultPreset);
         setDefaultInUse();
@@ -27,10 +28,21 @@ class SinglePreset extends Component {
         const { params } = preset;
         const presetId = preset._id || '0';
 
+        if(isLoading) {
+            return <h2 className="is-loading">Loading...</h2>
+        }
+
+        if (hasErrored) {
+            console.log(hasErrored)
+            return (
+                <div className='has-errored'>Something went wrong... {hasErrored.message}</div>
+            );
+        }
+
         if (params) {
             return (
                 <div className="single-preset-body">
-                    <h3 className="current-preset-header">Current Preset: {preset.presetName}</h3>
+                    <h3 className="current-preset-header">Current Preset: <span className="current-preset-name">{preset.presetName}</span></h3>
                     {params.map((param, index) => {                        
                         return (
                             <FXParam 
@@ -43,10 +55,6 @@ class SinglePreset extends Component {
                     })}
                 </div>
             )
-        } else if (hasErrored) {
-            return (
-                <div>There's Been an error... {hasErrored}</div>
-            );
         } else {
             return <div>Loading...</div>
         }     
@@ -72,7 +80,7 @@ const mapDispatchToProps = dispatch => {
     return bindActionCreators({
         selectPreset: selectPreset,
         setDefaultInUse: setDefaultInUse
-    }, dispatch)
+    }, dispatch);
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SinglePreset);

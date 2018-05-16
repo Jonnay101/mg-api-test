@@ -10,23 +10,6 @@
     background: brown;
 }
 
-/* buttons at the top */
-.button-bar {
+.fx-controls-body {
     display: flex;
-    justify-content: space-between;
-}
-
-.auto-save-container {
-    width: 180px;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-}
-
-.auto-save-label {
-
-}
-
-.auto-save-input {
-   
 }

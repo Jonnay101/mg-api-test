@@ -11,6 +11,8 @@ import {
     unsetDefaultInUse 
 } from '../../actions/index';
 
+require('./ButtonBar.css');
+
 class ButtonBar extends Component {
 
     static defaultProps = {
@@ -25,7 +27,7 @@ class ButtonBar extends Component {
     };
 
     handleNewPreset(){
-        // creates a new preset from the default settings
+        // creates a new preset with the default settings
         const { info, selectPreset, setDefaultInUse } = this.props;
         // set default preset as currPreset
         selectPreset(info.defaultPreset);
@@ -34,7 +36,7 @@ class ButtonBar extends Component {
     };
 
     handleSaveAs() {
-        // saves a copy of the current preset
+        // saves a renamed copy of the current preset
         const newName = prompt('please enter a new preset name');
         if (newName && newName.length > 0) {
             let { addNewPreset, currPreset, info } = this.props;
@@ -43,9 +45,7 @@ class ButtonBar extends Component {
                 presetName: newName,
                 params
             }
-
-            addNewPreset(info.requestURI, newCurrPreset); 
-
+            addNewPreset(info.requestURI, newCurrPreset);
         } else {
             alert('you must enter a preset name');
         }
@@ -62,7 +62,7 @@ class ButtonBar extends Component {
     };
 
     whenDeleteButton = () => {
-        // conditional delete button -- only delete non default presets
+        // conditional delete button -- only appears when non default presets are selected
         const { defaultInUse } = this.props;
         return !defaultInUse ? <button 
             onClick={this.handleDelete.bind(this)} 

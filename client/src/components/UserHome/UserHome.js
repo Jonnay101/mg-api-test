@@ -1,11 +1,13 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
+require('./UserHome.css');
+
 const UserHome = (props) => {
         
     return (
         <div className="user-home-page">
-            <h4>A Rudimentary autosave preset manager for Compressors and EQs.</h4>
+            <h4>A React and Redux autosave preset manager for Compressors and EQs.</h4>
             <p className="choose-proc">Choose Processor...</p>
             <div className="page-nav">
                 <Link to={'/eq'} className="page-link btn">Eq</Link>

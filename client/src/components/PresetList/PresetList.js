@@ -15,7 +15,7 @@ class PresetList extends Component {
 
     componentDidMount() {
         const { getFxPresets, info } = this.props;
-        getFxPresets(info.requestURI);
+        getFxPresets(info.requestURI);        
     }
 
     renderPresets () {

@@ -24,7 +24,7 @@ class FX extends Component {
             <div className={fxBodyTag}>
                 <ButtonBar info={info}/>
                 <h1 style={{color: 'white'}}>{info.fxType}</h1>
-                <div className='fx-body'>
+                <div className='fx-controls-body'>
                     <PresetList info={info}/>
                     <SinglePreset info={info} />
                 </div>
