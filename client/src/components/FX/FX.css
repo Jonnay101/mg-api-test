@@ -10,6 +10,21 @@
     background: brown;
 }
 
+.fx-type-header {
+    color: #fff;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 10px;
+}
+
 .fx-controls-body {
     display: flex;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+}
+
+@media screen and (max-width: 500px) {
+    .fx-controls-body {
+        display: flex;
+        flex-direction: column;
+    }
 }

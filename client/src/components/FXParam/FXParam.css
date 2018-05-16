@@ -2,20 +2,35 @@
     color: #fff!important;
 }
 
+.param-body {
+    padding: 5px 1px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    border-radius: 3px;
+
+}
+
+.param-body:not(:last-child) {
+    /* border-bottom: 1px solid rgba(0,0,0,0.2); */
+    margin-bottom: 2px;
+}
 
 /* single param */
 .param-input {
     display: block;
+    margin-top: 10px;
+}
+
+.param-input:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+.switch {
+    float: right;
 }
 
 .param-switch {
     display: inline-block;
     width: 60px;
-    margin:  5px 0;
-}
-
-.param-input:not(:last-child) {
-    margin-bottom: 10px;
 }
 
 .param-select {
@@ -25,7 +40,7 @@
     font-family: 1.1rem;
 }
 
-.param-label {
+label.param-label {
     margin-bottom: 10px;
     font-size: 1.3rem;
 }

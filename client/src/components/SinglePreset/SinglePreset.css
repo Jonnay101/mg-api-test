@@ -19,6 +19,10 @@
 .is-loading {
     text-align: center;
     animation: loading 2s infinite ease-in-out;
+    color: #ff0;
+    flex: 3;
+    padding: 40px;
+    font-size: 3rem;
 }
 
 .has-errored {
@@ -38,5 +42,14 @@
     }
     100% {
         transform: scale(1);
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .single-preset-body {
+        flex: 1;
+        margin-left: 0;
+        padding: 0;
+        border-left: none;
     }
 }
