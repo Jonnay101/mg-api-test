@@ -28,11 +28,17 @@ class ButtonBar extends Component {
 
     handleNewPreset(){
         // creates a new preset with the default settings
-        const { info, selectPreset, setDefaultInUse } = this.props;
-        // set default preset as currPreset
-        selectPreset(info.defaultPreset);
-        setDefaultInUse();
-        this.handleSaveAs(info.defaultPreset);
+        const newName = prompt('please enter a new preset name');
+        if (newName && newName.length > 0) {
+            let { addNewPreset, info } = this.props;
+            const newCurrPreset = {
+                presetName: newName,
+                params: []
+            }
+            addNewPreset(info.requestURI, newCurrPreset);
+        } else {
+            alert('you must enter a preset name');
+        }
     };
 
     handleSaveAs() {

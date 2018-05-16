@@ -61,10 +61,10 @@ module.exports = {
     defaultEqParams : [
         {hiBand: true},
         {hiShelf: true},
-        {hiFreq: 7},
+        {hiFreq: 8},
         {hiGain: 0},
         {hiMidBand: true},
-        {hiMidFreq: 2.4},
+        {hiMidFreq: 2},
         {hiMidGain: 0},
         {loMidBand: true},
         {loMidHiQ: true},
@@ -82,7 +82,7 @@ module.exports = {
         });
     },
     validatePreset : function (preset, defParamArray ) {
-        // takes a preset, checks preset has all the rewuired params, fills in any blanks, returns a new preset
+        // takes a preset, checks preset has all the required params, fills in any blanks, returns a new preset
         if (typeof preset === 'object') {
             if (arguments.length == 2 && Array.isArray(defParamArray)) {
                 const presetParam = preset.params || [];
