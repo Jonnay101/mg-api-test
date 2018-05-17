@@ -16,8 +16,8 @@ class FXParam extends React.Component {
     constructor (props) {
         super(props)
         this.handleParamChange = this.handleParamChange.bind(this);
-        this.handleDbUpdate = debounce(this.handleDbUpdate).bind(this);
-        this.handleCurrPresetUpdate = debounce(this.handleCurrPresetUpdate).bind(this);
+        this.handleDbUpdate = debounce(this.handleDbUpdate, 200).bind(this);
+        this.handleCurrPresetUpdate = debounce(this.handleCurrPresetUpdate,150).bind(this);
     }
 
     static defaultProps = {
@@ -33,7 +33,7 @@ class FXParam extends React.Component {
 
     handleParamChange (paramObj) {
         // get vars
-        const { currPreset, selectPreset, currParam, setCurrParam } = this.props;
+        const { currPreset, setCurrParam } = this.props;
         const newPreset = {...currPreset};
         const currParams = currPreset.params;
         const { paramTuple, presetId } = paramObj;
@@ -58,8 +58,10 @@ class FXParam extends React.Component {
 
     handleCurrPresetUpdate (newPreset) {
         // debounced: updates currPreset in state
-        const { selectPreset } = this.props;
+        const { selectPreset, setCurrParam } = this.props;
         selectPreset(newPreset);
+        setCurrParam(null);
+        console.log('this is')
     }
 
     handleDbUpdate (paramTuple, presetId) {
@@ -74,7 +76,7 @@ class FXParam extends React.Component {
     }
 
     render(){
-        const { param, presetId, currParam, setCurrParam } = this.props;
+        const { param, presetId, currParam } = this.props;
         const paramName = Helpers.getKeyFromTuple(param);
         let paramValue;
 

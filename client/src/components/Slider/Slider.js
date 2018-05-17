@@ -23,15 +23,12 @@ class Slider extends Component {
             presetId: target.name
         }
 
-        // throttle onParamChange reporting to integers        
-        if (paramValue % 0.5 === 0 || paramValue === 0) {
-            onParamChange(paramObj);
-        }                  
+        onParamChange(paramObj);           
     }    
 
     render(){
         const { paramName, paramValue, presetId } = this.props;
-        let paramUnit, min = 0, max = 0, step = 0.25;
+        let paramUnit, min = 0, max = 0, step = 0.5;
         const paramBodyTag = paramName + '-param-body param-body';
 
         if (paramName.indexOf('Gain') >= 0 || paramName.indexOf('presence') >= 0 || paramName.indexOf('thresh') >= 0 || paramName.indexOf('make') >= 0){
@@ -79,8 +76,8 @@ class Slider extends Component {
                 </label>     
                 <input 
                     type="range"
-                    min={min - 0.25}
-                    max={max + 0.25}
+                    min={min}
+                    max={max}
                     step={step}
                     className="param-input slider" 
                     onChange={this.handleInputChange} 
