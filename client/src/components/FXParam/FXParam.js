@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Helpers from '../../functions/helpers';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { updateParams, selectPreset } from '../../actions/index';
+import { updateParams, selectPreset, setCurrParam } from '../../actions/index';
 import { debounce } from '../../functions/debounce';
 
 import Slider from '../Slider/Slider';
@@ -17,6 +17,7 @@ class FXParam extends React.Component {
         super(props)
         this.handleParamChange = this.handleParamChange.bind(this);
         this.handleDbUpdate = debounce(this.handleDbUpdate).bind(this);
+        this.handleCurrPresetUpdate = debounce(this.handleCurrPresetUpdate).bind(this);
     }
 
     static defaultProps = {
@@ -26,13 +27,20 @@ class FXParam extends React.Component {
         info: {}
     }
 
+    componentWillMount() {
+        setCurrParam(null);
+    }
+
     handleParamChange (paramObj) {
         // get vars
-        const { currPreset, selectPreset } = this.props;
+        const { currPreset, selectPreset, currParam, setCurrParam } = this.props;
         const newPreset = {...currPreset};
         const currParams = currPreset.params;
         const { paramTuple, presetId } = paramObj;
         const newParams = [...currParams];
+
+        // set currParam
+        setCurrParam(paramTuple);
         
         // find the index where paramTuple equivalent lives
         const index = currParams.findIndex(param => Helpers.matchObjKeys(param, paramTuple));
@@ -42,14 +50,21 @@ class FXParam extends React.Component {
         newPreset.params = newParams;
 
         // send to db
-        this.handleDbUpdate(paramTuple, presetId, index);
+        this.handleDbUpdate(paramTuple, presetId);
 
         // upddate current preset
+        this.handleCurrPresetUpdate(newPreset);
+    }
+
+    handleCurrPresetUpdate (newPreset) {
+        // debounced: updates currPreset in state
+        const { selectPreset } = this.props;
         selectPreset(newPreset);
     }
 
     handleDbUpdate (paramTuple, presetId) {
-        const { autoSave, defaultInUse, updateParams } = this.props;
+        // debounced: passes info to PUT request
+        const { autoSave, defaultInUse, updateParams,  } = this.props;
         
         if (!defaultInUse && autoSave) {
             // if default not in use and autosave turned on...
@@ -59,9 +74,23 @@ class FXParam extends React.Component {
     }
 
     render(){
-        const { param, presetId } = this.props;
-        const paramName = Helpers.getKeyFromTuple(param)
-        const paramValue = param[paramName];
+        const { param, presetId, currParam, setCurrParam } = this.props;
+        const paramName = Helpers.getKeyFromTuple(param);
+        let paramValue;
+
+        if (currParam) {
+            // if currParam exists get its name
+            const currParamName = Helpers.getKeyFromTuple(currParam);
+            if (currParamName === paramName) {
+                // currParam name is the same as param name set the value from currParam
+                paramValue = currParam[paramName];
+            } else {
+                paramValue = param[paramName];
+            }
+        } else {
+            paramValue = param[paramName];
+        }
+
         const fxParamBodyTag = `${paramName}-param-body fx-param-body`;
 
         if (typeof paramValue === 'number') {
@@ -97,7 +126,8 @@ const mapStateToProps = state => {
         autoSave: state.autoSave,
         currPreset: state.currPreset,
         defaultInUse: state.defaultInUse,
-        presets: state.presets
+        presets: state.presets,
+        currParam: state.currParam
     };
 };
 
@@ -105,7 +135,8 @@ const mapDispatchToProps = dispatch => {
     // maps redux action creators to props
     return bindActionCreators({
         selectPreset: selectPreset,
-        updateParams: updateParams
+        updateParams: updateParams,
+        setCurrParam: setCurrParam
     }, dispatch);
 };
 

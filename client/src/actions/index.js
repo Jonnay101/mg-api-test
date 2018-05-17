@@ -8,7 +8,8 @@ import {
     UPDATE_PARAMS,
     GET_PRESETS,
     REPORT_ERROR,
-    IS_LOADING
+    IS_LOADING,
+    SET_CURR_PARAM
 } from './types';
 
 export function getFxPresets(fxURI) {
@@ -156,3 +157,12 @@ export function isLoading(bool) {
         isLoading: bool
     };
 };
+
+export function setCurrParam(param) {
+    // sets currParam property
+    return {
+        type: SET_CURR_PARAM,
+        payload: param
+    };
+};
+

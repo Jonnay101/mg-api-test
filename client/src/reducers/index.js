@@ -5,6 +5,7 @@ import autoSaveReducer from './autoSaveReducer';
 import defaultInUseReducer from './defaultInUseReducer';
 import isLoadingReducer from './isLoadingReducer';
 import hasErroredReducer from './hasErroredReducer';
+import currParamReducer from './currParamReducer';
 
 export default combineReducers({
     autoSave: autoSaveReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
     defaultInUse: defaultInUseReducer,
     presets: presetsReducer,
     isLoading: isLoadingReducer,
-    hasErrored: hasErroredReducer
+    hasErrored: hasErroredReducer,
+    currParam: currParamReducer
 });

@@ -24,7 +24,7 @@ class Slider extends Component {
         }
 
         // throttle onParamChange reporting to integers        
-        if (paramValue % 2 === 0 || paramValue === 0) {
+        if (paramValue % 0.5 === 0 || paramValue === 0) {
             onParamChange(paramObj);
         }                  
     }    

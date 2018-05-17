@@ -17,7 +17,6 @@ class SinglePreset extends Component {
     };
 
     componentDidMount() {
-        console.log(this.props.hasErrored);
         const { selectPreset, setDefaultInUse, info } = this.props;
         selectPreset(info.defaultPreset);
         setDefaultInUse();

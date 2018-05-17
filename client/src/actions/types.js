@@ -10,4 +10,5 @@ export const GET_EQ_PRESETS = 'GET_EQ_PRESETS';
 export const GET_PRESETS = 'GET_PRESETS';
 export const REPORT_ERROR = 'REPORT_ERROR';
 export const IS_LOADING = 'IS_LOADING';
+export const SET_CURR_PARAM = 'SET_CURR_PARAM';
 
